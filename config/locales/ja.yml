@@ -47,3 +47,9 @@ ja:
   errors:
     messages:
       blank: "%{attribute}を入力してください"
+
+  time:
+    formats:
+      default: "%Y年%m月%d日 %H:%M:%S"
+      short: "%-m月%-d日 %H:%M"
+      long: "%Y年%-m月%-d日 %-H時%-M分%-S秒"
