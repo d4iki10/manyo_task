@@ -7,6 +7,9 @@ ja:
         title: タイトル
         content: 内容
         created_at: 作成日時
+        deadline_on: 終了期限
+        priority: 優先度
+        status: ステータス
 
   tasks:
     index:
@@ -28,6 +31,14 @@ ja:
     links:
       tasks_index: タスク一覧
       new_task: タスクを登録する
+    priority:
+      high: 高
+      medium: 中
+      low: 低
+    status:
+      not_started: 未着手
+      in_progress: 着手中
+      completed: 完了
 
   helpers:
     submit:
@@ -45,8 +56,9 @@ ja:
     destroy_success: "%{model}を削除しました"
 
   errors:
+    format: "%{attribute}%{message}"
     messages:
-      blank: "%{attribute}を入力してください"
+      blank: "を入力してください"
 
   time:
     formats:
