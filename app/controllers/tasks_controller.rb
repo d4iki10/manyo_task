@@ -3,7 +3,24 @@ class TasksController < ApplicationController
 
   # タスク一覧画面（Read）
   def index
-    @tasks = Task.order(created_at: :desc).page(params[:page]).per(10)
+    @tasks = Task.all
+
+    # 検索機能の実装
+    if params[:search].present?
+      @tasks = @tasks.search_title(params[:search][:title]) if params[:search][:title].present?
+      @tasks = @tasks.search_status(params[:search][:status]) if params[:search][:status].present?
+    end
+
+    # ソート機能の実装
+    if params[:sorted_deadline_on].present?
+      @tasks = @tasks.sorted_by_deadline
+    elsif params[:sorted_priority].present?
+      @tasks = @tasks.sorted_by_priority
+    else
+      @tasks = @tasks.order(created_at: :desc)
+    end
+
+    @tasks = @tasks.page(params[:page]).per(10)
   end
 
   # タスク詳細画面（Read）
@@ -48,7 +65,7 @@ class TasksController < ApplicationController
 
   # Strong Parametersの設定
   def task_params
-    params.require(:task).permit(:title, :content)
+    params.require(:task).permit(:title, :content, :deadline_on, :priority, :status)
   end
 
   # 共通処理：@taskのセット

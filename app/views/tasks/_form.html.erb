@@ -22,6 +22,21 @@
     </div>
 
     <div>
+        <%= form.label :deadline_on, '終了期限' %><br>
+        <%= form.date_field :deadline_on %>
+    </div>
+
+    <div>
+        <%= form.label :priority, '優先度' %><br>
+        <%= form.select :priority, [['高', 'high'], ['中', 'medium'], ['低', 'low']], include_blank: '選択してください' %>
+    </div>
+
+    <div>
+        <%= form.label :status, 'ステータス' %><br>
+        <%= form.select :status, [['未着手', 'not_started'], ['着手中', 'in_progress'], ['完了', 'completed']], include_blank: '選択してください' %>
+    </div>
+
+    <div>
         <% if task.new_record? %>
             <%= form.submit t('tasks.new.create_task'), id: 'create-task' %>
         <% else %>
