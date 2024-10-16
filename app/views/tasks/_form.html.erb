@@ -28,12 +28,12 @@
 
     <div>
         <%= form.label :priority, '優先度' %><br>
-        <%= form.select :priority, [['高', 'high'], ['中', 'medium'], ['低', 'low']], include_blank: '選択してください' %>
+        <%= form.select :priority, [['高', 'high'], ['中', 'medium'], ['低', 'low']], selected: '', include_blank: '' %>
     </div>
 
     <div>
         <%= form.label :status, 'ステータス' %><br>
-        <%= form.select :status, [['未着手', 'not_started'], ['着手中', 'in_progress'], ['完了', 'completed']], include_blank: '選択してください' %>
+        <%= form.select :status, [['未着手', 'not_started'], ['着手中', 'in_progress'], ['完了', 'completed']], selected: '', include_blank: '' %>
     </div>
 
     <div>

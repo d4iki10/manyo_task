@@ -56,8 +56,9 @@ ja:
     destroy_success: "%{model}を削除しました"
 
   errors:
+    format: "%{attribute}%{message}"
     messages:
-      blank: "%{attribute}を入力してください"
+      blank: "を入力してください"
 
   time:
     formats:
