@@ -13,7 +13,7 @@ class Task < ApplicationRecord
   scope :search_status, ->(status) { where(status: status) }
   # ソートスコープの定義
   scope :sorted_by_deadline, -> { order(deadline_on: :asc) }
-  scope :sorted_by_priority, -> { order(priority: :desc, create_at: :desc) }
+  scope :sorted_by_priority, -> { order(priority: :desc, created_at: :desc) }
 
   def priority_i18n
     I18n.t("tasks.priority.#{priority}")
