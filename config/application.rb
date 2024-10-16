@@ -27,5 +27,11 @@ module CdpWebManyoTask
         controller_specs: false,
         request_specs: false
     end
+
+    config.i18n.default_locale = :ja
+    config.i18n.fallbacks = [:ja]
+
+    config.time_zone = 'Tokyo'
+    config.active_record.default_timezone = :local
   end
 end

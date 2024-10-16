@@ -3,7 +3,7 @@ class TasksController < ApplicationController
 
   # タスク一覧画面（Read）
   def index
-    @tasks = Task.all
+    @tasks = Task.order(created_at: :desc).page(params[:page]).per(10)
   end
 
   # タスク詳細画面（Read）
@@ -19,7 +19,7 @@ class TasksController < ApplicationController
   def create
     @task = Task.new(task_params)
     if @task.save
-      redirect_to tasks_path, notice: 'Task was successfully created.'
+      redirect_to @task, notice: t('flash.create_success', model: Task.model_name.human)
     else
       render :new
     end
@@ -32,7 +32,7 @@ class TasksController < ApplicationController
   # タスクの更新処理（Update）
   def update
     if @task.update(task_params)
-      redirect_to @task, notice: 'Task was successfully updated.'
+      redirect_to @task, notice: t('flash.update_success', model: Task.model_name.human)
     else
       render :edit
     end
@@ -41,7 +41,7 @@ class TasksController < ApplicationController
   # タスクの削除処理（Delete）
   def destroy
     @task.destroy
-    redirect_to tasks_url, notice: 'Task was successfully destroyed.'
+    redirect_to tasks_url, notice: t('flash.destroy_success', model: Task.model_name.human)
   end
 
   private

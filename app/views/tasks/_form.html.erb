@@ -23,9 +23,9 @@
 
     <div>
         <% if task.new_record? %>
-            <%= form.submit 'Create Task', id: 'create-task' %>
+            <%= form.submit t('tasks.new.create_task'), id: 'create-task' %>
         <% else %>
-            <%= form.submit 'Update Task', id: 'update-task' %>
+            <%= form.submit t('tasks.edit.update_task'), id: 'update-task' %>
         <% end %>
     </div>
 <% end %>
