@@ -25,7 +25,7 @@ class SessionsController < ApplicationController
 
   def redirect_logged_in_user
     if logged_in?
-      redirect_to tasks_path, alert: 'ログアウトしてください'
+      redirect_to tasks_path, notice: 'ログアウトしてください'
     end
   end
 end

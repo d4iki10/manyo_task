@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :require_login, except: [:new, :create]
   before_action :redirect_logged_in_user, only: [:new, :create]
   before_action :set_user, only: [:show, :edit, :update]
+  before_action :correct_user, only: [:show, :edit, :update]
 
   def new
     @user = User.new
@@ -46,6 +47,12 @@ class UsersController < ApplicationController
   def require_login
     unless logged_in?
       redirect_to new_session_path, alert: 'ログインしてください'
+    end
+  end
+
+  def correct_user
+    unless @user == current_user
+      redirect_to tasks_path, notice: 'アクセス権限がありません'
     end
   end
 

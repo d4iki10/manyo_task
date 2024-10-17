@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   private
 
   def current_user
-    @current_user ||= User.find_by(id: session[:user_id])
+    @current_user ||= User.find_by(id: session[:user_id]) if session[:user_id]
   end
 
   def logged_in?
@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
 
   def require_login
     unless logged_in?
-      redirect_to new_session_path, alert: 'ログインしてください'
+      redirect_to new_session_path, notice: 'ログインしてください'
     end
   end
 end

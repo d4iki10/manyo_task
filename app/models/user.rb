@@ -6,13 +6,9 @@ class User < ApplicationRecord
   has_many :tasks, dependent: :destroy
 
   validates :name, presence: true
-  validates :email, presence: true,
-                    uniqueness: { case_sensitive: false }
-  validates :password, presence: true,
-                       length: { minimum: 6 },
-                       allow_nil: true
-  validates :password_confirmation, presence: true,
-                                    if: -> { password.present? }
+  validates :email, presence: true, uniqueness: { case_sensitive: false }
+  validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
+  validates :password_confirmation, presence: true, if: -> { password.present? }
 
   # 管理者が一人以上存在することを保証
   before_update :ensure_admin_exists, if: :will_save_change_to_admin?
