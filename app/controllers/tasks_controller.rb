@@ -1,9 +1,11 @@
 class TasksController < ApplicationController
+  before_action :require_login
   before_action :set_task, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_user, only: [:show, :edit, :update, :destroy]
 
   # タスク一覧画面（Read）
   def index
-    @tasks = Task.all
+    @tasks = current_user.admin? ? Task.includes(:user).all : current_user.tasks
 
     # 検索機能の実装
     if params[:search].present?
@@ -38,6 +40,7 @@ class TasksController < ApplicationController
     if @task.save
       redirect_to @task, notice: t('flash.create_success', model: Task.model_name.human)
     else
+      flash.now[:alert] = 'タスクの作成に失敗しました。'
       render :new
     end
   end
@@ -71,5 +74,11 @@ class TasksController < ApplicationController
   # 共通処理：@taskのセット
   def set_task
     @task = Task.find(params[:id])
+  end
+
+  def authorize_user
+    unless current_user.admin? || @task.user == current_user
+      redirect_to tasks_path, alert: 'アクセス権限がありません'
+    end
   end
 end
