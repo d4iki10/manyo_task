@@ -1,16 +1,16 @@
 <h1>ユーザ編集ページ</h1>
 
-<%= form_with(model: [:admin, @user], local: true) do |form| %>
-    <% if @user.errors.any? %>
-        <div id="error_explanation">
+<% if @user.errors.any? %>
+    <div id="error_explanation">
         <ul>
             <% @user.errors.full_messages.each do |message| %>
             <li><%= message %></li>
             <% end %>
         </ul>
-        </div>
-    <% end %>
+    </div>
+<% end %>
 
+<%= form_with(model: @user, url: admin_user_path(@user), local: true, method: :patch) do |form| %>
     <div>
         <%= form.label :name, '名前' %><br>
         <%= form.text_field :name %>
@@ -40,5 +40,4 @@
         <%= form.submit '更新する', id: 'update-user' %>
     </div>
 <% end %>
-
 <%= link_to '戻る', admin_users_path, id: 'back' %>

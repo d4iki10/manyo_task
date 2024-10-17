@@ -27,9 +27,9 @@
     </nav>
 
     <% if flash[:notice] %>
-      <p class="notice"><%= flash[:notice] %></p>
+      <p><%= flash[:notice] %></p>
     <% elsif flash[:alert] %>
-      <p class="alert"><%= flash[:alert] %></p>
+      <p><%= flash[:alert] %></p>
     <% end %>
 
     <%= yield %>

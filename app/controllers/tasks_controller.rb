@@ -5,7 +5,7 @@ class TasksController < ApplicationController
 
   # タスク一覧画面（Read）
   def index
-    @tasks = current_user.admin? ? Task.includes(:user).all : current_user.tasks
+    @tasks = current_user.tasks.order(created_at: :desc)
 
     # 検索機能の実装
     if params[:search].present?
@@ -38,7 +38,7 @@ class TasksController < ApplicationController
   def create
     @task = current_user.tasks.build(task_params)
     if @task.save
-      redirect_to @task, notice: t('flash.create_success', model: Task.model_name.human)
+      redirect_to tasks_path, notice: t('flash.create_success', model: Task.model_name.human)
     else
       flash.now[:alert] = 'タスクの作成に失敗しました。'
       render :new
