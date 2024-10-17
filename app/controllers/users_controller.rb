@@ -38,12 +38,10 @@ class UsersController < ApplicationController
     Rails.logger.info "Attempting to destroy user: #{@user.id}"
     if @user.destroy
       reset_session
-      Rails.logger.info "User successfully destroyed: #{@user.id}"
       redirect_to new_session_path, notice: 'アカウントを削除しました'
     else
-      Rails.logger.error "Failed to destroy user: #{@user.id}"
       flash[:alert] = 'アカウント削除に失敗しました'
-      redirect_to user_path(@user)
+      redirect_to user_path
     end
   end
 

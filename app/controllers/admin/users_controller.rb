@@ -1,61 +1,65 @@
-class Admin::UsersController < ApplicationController
-  before_action :require_login
-  before_action :require_admin
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+# app/controllers/admin/users_controller.rb
+module Admin
+  class UsersController < ApplicationController
+    before_action :require_admin
+    before_action :set_user, only: [:show, :edit, :update, :destroy]
 
-  def index
-    @users = User.includes(:tasks).order(created_at: :desc)
-  end
-
-  def new
-    @user = User.new
-  end
-
-  def create
-    @user = User.new(user_params)
-    if @user.save
-      redirect_to admin_users_path, notice: 'ユーザを登録しました'
-    else
-      render :new
+    def new
+      @user = User.new
     end
-  end
 
-  def show
-    @tasks = @user.tasks.order(created_at: :desc)
-  end
-
-  def edit
-  end
-
-  def update
-    if @user.update(user_params)
-      redirect_to admin_users_path, notice: 'ユーザを更新しました'
-    else
-      render :edit
+    def create
+      @user = User.new(user_params)
+      if @user.save
+        redirect_to admin_users_path, notice: I18n.t('flash.create_success', model: I18n.t('activerecord.models.user'))
+      else
+        render :new
+      end
     end
-  end
 
-  def destroy
-    if @user.destroy
-      redirect_to admin_users_path, notice: 'ユーザを削除しました'
-    else
-      redirect_to admin_users_path, alert: '管理者が0人になるため削除できません'
+    def index
+      @users = User.all
     end
-  end
 
-  private
+    def show
+      # 管理者用のユーザー詳細表示
+    end
 
-  def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation, :admin)
-  end
+    def edit
+      # 管理者用のユーザー編集
+    end
 
-  def set_user
-    @user = User.find(params[:id])
-  end
+    def update
+      if @user.update(user_params)
+        redirect_to admin_users_path, notice: I18n.t('flash.update_success', model: I18n.t('activerecord.models.user'))
+      else
+        render :edit
+      end
+    end
 
-  def require_admin
-    unless current_user.admin?
-      redirect_to tasks_path, alert: '管理者以外アクセスできません'
+    def destroy
+      if @user.admin? && User.where(admin: true).count <= 1
+        redirect_to admin_users_path, alert: I18n.t('flash.delete_last_admin')
+      else
+        @user.destroy
+        redirect_to admin_users_path, notice: I18n.t('flash.destroy_success', model: I18n.t('activerecord.models.user'))
+      end
+    end
+
+    private
+
+    def set_user
+      @user = User.find(params[:id])
+    end
+
+    def user_params
+      params.require(:user).permit(:name, :email, :password, :password_confirmation, :admin)
+    end
+
+    def require_admin
+      unless current_user&.admin?
+        redirect_to tasks_path, alert: I18n.t('flash.alert.admin_access')
+      end
     end
   end
 end
