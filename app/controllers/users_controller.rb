@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
   before_action :require_login, except: [:new, :create]
   before_action :redirect_logged_in_user, only: [:new, :create]
-  before_action :set_user, only: [:show, :edit, :update]
-  before_action :correct_user, only: [:show, :edit, :update]
+  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :correct_user, only: [:show, :edit, :update, :destroy]
 
   def new
     @user = User.new
@@ -31,6 +31,19 @@ class UsersController < ApplicationController
       redirect_to user_path, notice: 'アカウントを更新しました'
     else
       render :edit
+    end
+  end
+
+  def destroy
+    Rails.logger.info "Attempting to destroy user: #{@user.id}"
+    if @user.destroy
+      reset_session
+      Rails.logger.info "User successfully destroyed: #{@user.id}"
+      redirect_to new_session_path, notice: 'アカウントを削除しました'
+    else
+      Rails.logger.error "Failed to destroy user: #{@user.id}"
+      flash[:alert] = 'アカウント削除に失敗しました'
+      redirect_to user_path(@user)
     end
   end
 

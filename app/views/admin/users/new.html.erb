@@ -1,16 +1,14 @@
 <h1>ユーザ登録ページ</h1>
 
-<%= form_with(model: [:admin, @user], local: true) do |form| %>
-    <% if @user.errors.any? %>
-        <div id="error_explanation">
-        <ul>
-            <% @user.errors.full_messages.each do |message| %>
+<% if @user.errors.any? %>
+    <ul>
+        <% @user.errors.full_messages.each do |message| %>
             <li><%= message %></li>
-            <% end %>
-        </ul>
-        </div>
-    <% end %>
+        <% end %>
+    </ul>
+<% end %>
 
+<%= form_with(model: [:admin, @user], local: true) do |form| %>
     <div>
         <%= form.label :name, '名前' %><br>
         <%= form.text_field :name %>
