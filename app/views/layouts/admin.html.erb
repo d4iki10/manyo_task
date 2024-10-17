@@ -11,10 +11,12 @@
 
     <body>
         <nav>
-        <%= link_to 'ユーザ一覧', admin_users_path, id: 'users-index' %> |
-        <%= link_to 'ユーザを登録する', new_admin_user_path, id: 'add-user' %> |
-        <%= link_to 'アカウント設定', user_path(current_user), id: 'account-setting' %> |
-        <%= link_to 'ログアウト', session_path, method: :delete, id: 'sign-out' %>
+            <%= link_to 'ユーザ一覧', admin_users_path, id: 'users-index' %>
+            <%= link_to 'ユーザを登録する', new_admin_user_path, id: 'add-user' %>
+            <%= link_to 'タスク一覧', tasks_path %>
+            <%= link_to 'タスクを登録する', new_task_path %>
+            <%= link_to 'アカウント設定', user_path(current_user), id: 'account-setting' %>
+            <%= link_to 'ログアウト', session_path, method: :delete, id: 'sign-out' %>
         </nav>
 
         <% if flash[:notice] %>

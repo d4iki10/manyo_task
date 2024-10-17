@@ -2,6 +2,7 @@ ja:
   activerecord:
     models:
       task: タスク
+      user: ユーザー
     attributes:
       task:
         title: タイトル
@@ -10,6 +11,19 @@ ja:
         deadline_on: 終了期限
         priority: 優先度
         status: ステータス
+      user:
+        name: 名前
+        email: メールアドレス
+        password: パスワード
+        password_confirmation: パスワード（確認）
+
+  errors:
+    format: "%{attribute}%{message}"
+    messages:
+      blank: "を入力してください"
+      taken: "はすでに使用されています"
+      too_short: "は%{count}文字以上で入力してください"
+      confirmation: "と%{attribute}の入力が一致しません"
 
   tasks:
     index:
@@ -54,11 +68,6 @@ ja:
     create_success: "%{model}を登録しました"
     update_success: "%{model}を更新しました"
     destroy_success: "%{model}を削除しました"
-
-  errors:
-    format: "%{attribute}%{message}"
-    messages:
-      blank: "を入力してください"
 
   time:
     formats:

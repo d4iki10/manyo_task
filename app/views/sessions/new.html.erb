@@ -1,12 +1,6 @@
 <h1>ログインページ</h1>
 
 <%= form_with(url: session_path, local: true) do |form| %>
-    <% if flash[:alert] %>
-        <div id="error_explanation">
-        <p><%= flash[:alert] %></p>
-        </div>
-    <% end %>
-
     <div>
         <%= form.label :email, 'メールアドレス' %><br>
         <%= form.email_field :email %>

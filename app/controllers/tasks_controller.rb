@@ -36,7 +36,7 @@ class TasksController < ApplicationController
 
   # タスクの登録処理（Create）
   def create
-    @task = Task.new(task_params)
+    @task = current_user.tasks.build(task_params)
     if @task.save
       redirect_to @task, notice: t('flash.create_success', model: Task.model_name.human)
     else
@@ -73,7 +73,18 @@ class TasksController < ApplicationController
 
   # 共通処理：@taskのセット
   def set_task
-    @task = Task.find(params[:id])
+    if current_user.admin?
+      @task = Task.find(params[:id])
+    else
+      @task = current_user.tasks.find(params[:id])
+    end
+  end
+
+  # ログイン必須のフィルタ
+  def require_login
+    unless logged_in?
+      redirect_to new_session_path, alert: 'ログインしてください'
+    end
   end
 
   def authorize_user
