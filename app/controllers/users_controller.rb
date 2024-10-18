@@ -12,7 +12,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       session[:user_id] = @user.id
-      flash[:notice] = 'アカウントを登録しました'
+      flash[:notice] = t('flash.account_created')
       redirect_to tasks_path
     else
       render :new
@@ -40,7 +40,7 @@ class UsersController < ApplicationController
     if @user.destroy
       reset_session
       flash[:notice] = 'アカウントを削除しました'
-      redirect_to new_sessions_path
+      redirect_to new_session_path
     else
       flash[:alert] = 'アカウント削除に失敗しました'
       redirect_to user_path
@@ -59,8 +59,8 @@ class UsersController < ApplicationController
 
   def require_login
     unless logged_in?
-      flash[:alert] = 'ログインしてください'
-      redirect_to new_sessions_path
+      flash[:alert] = t('flash.login_required')
+      redirect_to new_session_path
     end
   end
 
@@ -73,7 +73,7 @@ class UsersController < ApplicationController
 
   def redirect_logged_in_user
     if logged_in?
-      flash[:alert] = 'ログアウトしてください'
+      flash[:alert] = t('flash.logout_required')
       redirect_to tasks_path
     end
   end

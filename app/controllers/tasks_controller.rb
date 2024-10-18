@@ -38,7 +38,7 @@ class TasksController < ApplicationController
   def create
     @task = current_user.tasks.build(task_params)
     if @task.save
-      flash[:notice] = 'アカウントを登録しました'
+      flash[:notice] = t('flash.account_created')
       redirect_to tasks_path
     else
       flash.now[:alert] = 'タスクの作成に失敗しました。'

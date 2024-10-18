@@ -1,7 +1,7 @@
 <h1><%= t('tasks.index.title') %></h1>
 
 <!-- 検索フォーム -->
-<%= form_with(url: tasks_path, method: :get, scope: :search, local: true) do |form| %>
+<%= form_with(url: tasks_path, method: :get, scope: :search, id: "search_task", local: true) do |form| %>
     <p>
         <%= form.label :title, 'タイトル' %>
         <%= form.text_field :title %>

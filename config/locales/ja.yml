@@ -17,6 +17,7 @@ ja:
         email: メールアドレス
         password: パスワード
         password_confirmation: パスワード（確認）
+        admin: 管理者権限
 
     errors:
       format: "%{attribute}%{message}"
@@ -75,14 +76,19 @@ ja:
     destroy_success: "%{model}を削除しました"
     login: "ログインしました"
     logout: "ログアウトしました"
+    login_required: "ログインしてください"
+    logout_required: "ログアウトしてください"
     user_created: "ユーザーを登録しました"
     user_updated: "ユーザーを更新しました"
     user_destroyed: "ユーザーを削除しました"
-    alert:
-      login_failed: "メールアドレスまたはパスワードに誤りがあります"
-      admin_access: "管理者以外アクセスできません"
-      delete_last_admin: "管理者が0人になるため削除できません"
-      cannot_remove_admin: "管理者が0人になるため権限を変更できません"
+    account_created: "アカウントを登録しました"
+    account_updated: "アカウントを更新しました"
+    account_destroyed: "アカウントを削除しました"
+  alert:
+    login_failed: "メールアドレスまたはパスワードに誤りがあります"
+    admin_access: "管理者以外アクセスできません"
+    delete_last_admin: "管理者が0人になるため削除できません"
+    cannot_remove_admin: "管理者が0人になるため権限を変更できません"
 
   time:
     formats:
