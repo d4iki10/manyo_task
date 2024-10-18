@@ -2,19 +2,19 @@
 
 <!-- 検索フォーム -->
 <%= form_with(url: tasks_path, method: :get, scope: :search, local: true) do |form| %>
-    <div>
+    <p>
         <%= form.label :title, 'タイトル' %>
         <%= form.text_field :title %>
-    </div>
+    </p>
 
-    <div>
+    <p>
         <%= form.label :status, 'ステータス' %>
         <%= form.select :status, options_for_select([['未着手', '0'], ['着手中', '1'], ['完了', '2']], selected: ''), prompt: '' %>
-    </div>
+    </p>
 
-    <div>
+    <p>
         <%= form.submit '検索', id: 'search_task' %>
-    </div>
+    </p>
 <% end %>
 
 <table>
@@ -46,4 +46,4 @@
         <% end %>
     </tbody>
 </table>
-<%= paginate @tasks %>
+<p><%= paginate @tasks %></p>

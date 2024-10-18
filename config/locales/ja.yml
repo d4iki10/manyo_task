@@ -19,7 +19,7 @@ ja:
         password_confirmation: パスワード（確認）
 
     errors:
-      format: "%{attribute} %{message}"
+      format: "%{attribute}%{message}"
       messages:
         blank: "を入力してください"
         taken: "はすでに使用されています"

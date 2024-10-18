@@ -16,13 +16,13 @@
             <%= link_to 'タスク一覧', tasks_path %>
             <%= link_to 'タスクを登録する', new_task_path %>
             <%= link_to 'アカウント設定', user_path(current_user), id: 'account-setting' %>
-            <%= link_to 'ログアウト', session_path, method: :delete, id: 'sign-out' %>
+            <%= link_to 'ログアウト', sessions_path, method: :delete, id: 'sign-out' %>
         </nav>
 
         <% if flash[:notice] %>
-        <p class="notice"><%= flash[:notice] %></p>
+            <p class="notice"><%= flash[:notice] %></p>
         <% elsif flash[:alert] %>
-        <p class="alert"><%= flash[:alert] %></p>
+            <p class="alert"><%= flash[:alert] %></p>
         <% end %>
 
         <%= yield %>

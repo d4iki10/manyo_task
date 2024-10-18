@@ -3,34 +3,34 @@
 <% if @user.errors.any? %>
     <ul>
         <% @user.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
+            <li><%= message.gsub(' ', '') %></li>
         <% end %>
     </ul>
 <% end %>
 
 <%= form_with(model: @user, url: user_path(@user), local: true) do |form| %>
-    <div>
+    <p>
         <%= form.label :name, '名前' %><br>
         <%= form.text_field :name %>
-    </div>
+    </p>
 
-    <div>
+    <p>
         <%= form.label :email, 'メールアドレス' %><br>
         <%= form.email_field :email %>
-    </div>
+    </p>
 
-    <div>
+    <p>
         <%= form.label :password, 'パスワード' %><br>
         <%= form.password_field :password %>
-    </div>
+    </p>
 
-    <div>
+    <p>
         <%= form.label :password_confirmation, 'パスワード（確認）' %><br>
         <%= form.password_field :password_confirmation %>
-    </div>
+    </p>
 
-    <div>
+    <p>
         <%= form.submit '更新する', id: 'update-user' %><br>
-        <%= link_to '戻る', user_path, id: 'back' %>
-    </div>
+    </p>
 <% end %>
+<%= link_to '戻る', user_path, id: 'back' %>

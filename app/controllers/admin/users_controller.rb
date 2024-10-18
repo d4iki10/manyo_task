@@ -4,6 +4,10 @@ module Admin
     before_action :require_admin
     before_action :set_user, only: [:show, :edit, :update, :destroy]
 
+    def index
+      @users = User.all.includes(:tasks)
+    end
+
     def new
       @user = User.new
     end
@@ -15,10 +19,6 @@ module Admin
       else
         render :new
       end
-    end
-
-    def index
-      @users = User.all
     end
 
     def show

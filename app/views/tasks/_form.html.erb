@@ -3,42 +3,42 @@
         <div id="error_explanation">
             <ul>
                 <% task.errors.full_messages.each do |message| %>
-                    <li><%= message %></li>
+                    <li><%= message.gsub(' ', '') %></li>
                 <% end %>
             </ul>
         </div>
     <% end %>
 
-    <div>
+    <p>
         <%= form.label :title %><br>
         <%= form.text_field :title, id: 'task_title' %>
-    </div>
+    </p>
 
-    <div>
+    <p>
         <%= form.label :content %><br>
         <%= form.text_area :content, id: 'task_content' %>
-    </div>
+    </p>
 
-    <div>
+    <p>
         <%= form.label :deadline_on, '終了期限' %><br>
         <%= form.date_field :deadline_on %>
-    </div>
+    </p>
 
-    <div>
+    <p>
         <%= form.label :priority, '優先度' %><br>
         <%= form.select :priority, [['高', 'high'], ['中', 'medium'], ['低', 'low']], selected: '', include_blank: '' %>
-    </div>
+    </p>
 
-    <div>
+    <p>
         <%= form.label :status, 'ステータス' %><br>
         <%= form.select :status, [['未着手', 'not_started'], ['着手中', 'in_progress'], ['完了', 'completed']], selected: '', include_blank: '' %>
-    </div>
+    </p>
 
-    <div>
+    <p>
         <% if task.new_record? %>
             <%= form.submit t('tasks.new.create_task'), id: 'create-task' %>
         <% else %>
             <%= form.submit t('tasks.edit.update_task'), id: 'update-task' %>
         <% end %>
-    </div>
+    </p>
 <% end %>

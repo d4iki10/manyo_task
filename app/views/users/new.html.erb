@@ -9,28 +9,28 @@
 <% end %>
 
 <%= form_with(model: @user, url: users_path, local: true) do |form| %>
-    <div>
+    <p>
         <%= form.label :name, '名前' %><br>
         <%= form.text_field :name %>
-    </div>
+    </p>
 
-    <div>
+    <p>
         <%= form.label :email, 'メールアドレス' %><br>
         <%= form.email_field :email %>
-    </div>
+    </p>
 
-    <div>
+    <p>
         <%= form.label :password, 'パスワード' %><br>
         <%= form.password_field :password %>
-    </div>
+    </p>
 
-    <div>
+    <p>
         <%= form.label :password_confirmation, 'パスワード（確認）' %><br>
         <%= form.password_field :password_confirmation %>
-    </div>
+    </p>
 
-    <div>
-        <%= form.submit '登録する', id: 'create-user' %><br>
-        <%= link_to '戻る', tasks_path, id: 'back' %>
-    </div>
+    <p>
+        <%= form.submit '登録する', id: 'create-user' %>
+    </p>
 <% end %>
+<%= link_to '戻る', tasks_path, id: 'back' %>

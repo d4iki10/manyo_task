@@ -5,38 +5,38 @@
         <div id="error_explanation">
             <ul>
                 <% @user.errors.full_messages.each do |message| %>
-                <li><%= message %></li>
+                <li><%= message.gsub(' ', '') %></li>
                 <% end %>
             </ul>
         </div>
     <% end %>
 
-    <div>
+    <p>
         <%= form.label :name, '名前' %><br>
         <%= form.text_field :name %>
-    </div>
+    </p>
 
-    <div>
+    <p>
         <%= form.label :email, 'メールアドレス' %><br>
         <%= form.email_field :email %>
-    </div>
+    </p>
 
-    <div>
+    <p>
         <%= form.label :password, 'パスワード' %><br>
         <%= form.password_field :password %>
-    </div>
+    </p>
 
-    <div>
+    <p>
         <%= form.label :password_confirmation, 'パスワード（確認）' %><br>
         <%= form.password_field :password_confirmation %>
-    </div>
+    </p>
 
-    <div>
+    <p>
         <%= form.label :admin, '管理者権限' %><br>
         <%= form.check_box :admin %>
-    </div>
+    </p>
 
-    <div>
+    <p>
         <%= form.submit '登録する', id: 'create-user' %>
-    </div>
+    </p>
 <% end %>

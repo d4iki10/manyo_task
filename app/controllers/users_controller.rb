@@ -12,7 +12,8 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       session[:user_id] = @user.id
-      redirect_to tasks_path, notice: 'アカウントを登録しました'
+      flash[:notice] = 'アカウントを登録しました'
+      redirect_to tasks_path
     else
       render :new
     end
@@ -28,17 +29,18 @@ class UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
-      redirect_to user_path, notice: 'アカウントを更新しました'
+      flash[:notice] = 'アカウントを更新しました'
+      redirect_to user_path
     else
       render :edit
     end
   end
 
   def destroy
-    Rails.logger.info "Attempting to destroy user: #{@user.id}"
     if @user.destroy
       reset_session
-      redirect_to new_session_path, notice: 'アカウントを削除しました'
+      flash[:notice] = 'アカウントを削除しました'
+      redirect_to new_sessions_path
     else
       flash[:alert] = 'アカウント削除に失敗しました'
       redirect_to user_path
@@ -57,19 +59,22 @@ class UsersController < ApplicationController
 
   def require_login
     unless logged_in?
-      redirect_to new_session_path, alert: 'ログインしてください'
+      flash[:alert] = 'ログインしてください'
+      redirect_to new_sessions_path
     end
   end
 
   def correct_user
     unless @user == current_user
-      redirect_to tasks_path, notice: 'アクセス権限がありません'
+      flash[:alert] = 'アクセス権限がありません'
+      redirect_to tasks_path
     end
   end
 
   def redirect_logged_in_user
     if logged_in?
-      redirect_to tasks_path, alert: 'ログアウトしてください'
+      flash[:alert] = 'ログアウトしてください'
+      redirect_to tasks_path
     end
   end
 end

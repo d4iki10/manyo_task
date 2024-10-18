@@ -4,21 +4,26 @@ RSpec.describe 'タスクモデル機能', type: :model do
   describe 'バリデーションのテスト' do
     context 'タスクのタイトルが空文字の場合' do
       it 'バリデーションに失敗する' do
-        task = Task.create(title: '', content: '企画書を作成する。')
+        user = FactoryBot.create(:user)
+        task = Task.new(title: '', content: '企画書を作成する。', user: user)
         expect(task).not_to be_valid
+        expect(task.errors[:title]).to include('を入力してください')
       end
     end
 
     context 'タスクの説明が空文字の場合' do
       it 'バリデーションに失敗する' do
-        task = Task.create(title: 'タスクタイトル', content: '')
+        user = FactoryBot.create(:user)
+        task = Task.new(title: 'タスクタイトル', content: '', user: user)
         expect(task).not_to be_valid
+        expect(task.errors[:content]).to include('を入力してください')
       end
     end
 
     context 'タスクのタイトルと説明に値が入っている場合' do
       it 'タスクを登録できる' do
-        task = Task.create(title: 'タスクタイトル', content: '企画書を作成する。')
+        user = FactoryBot.create(:user)
+        task = Task.new(title: 'タスクタイトル', content: '企画書を作成する。', user: user)
         expect(task).to be_valid
       end
     end
@@ -26,9 +31,10 @@ RSpec.describe 'タスクモデル機能', type: :model do
 
   describe '検索機能のテスト' do
     before do
-      @task1 = Task.create(title: 'タスク1', content: '内容1', status: :not_started)
-      @task2 = Task.create(title: 'タスク2', content: '内容2', status: :in_progress)
-      @task3 = Task.create(title: 'タスク3', content: '内容3', status: :completed)
+      @user = FactoryBot.create(:user)
+      @task1 = Task.create!(title: 'タスク1', content: '内容1', status: :not_started, user: @user)
+      @task2 = Task.create!(title: 'タスク2', content: '内容2', status: :in_progress, user: @user)
+      @task3 = Task.create!(title: 'タスク3', content: '内容3', status: :completed, user: @user)
     end
 
     context 'タイトルであいまい検索をした場合' do

@@ -5,7 +5,7 @@ class TasksController < ApplicationController
 
   # タスク一覧画面（Read）
   def index
-    @tasks = current_user.tasks.order(created_at: :desc)
+    @tasks = current_user.tasks
 
     # 検索機能の実装
     if params[:search].present?
@@ -83,7 +83,7 @@ class TasksController < ApplicationController
   # ログイン必須のフィルタ
   def require_login
     unless logged_in?
-      redirect_to new_session_path, alert: 'ログインしてください'
+      redirect_to new_sessions_path, alert: 'ログインしてください'
     end
   end
 
