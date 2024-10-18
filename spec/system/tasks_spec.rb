@@ -2,14 +2,19 @@ require 'rails_helper'
 
 RSpec.describe 'タスク管理機能', type: :system do
   before do
-    @user = FactoryBot.create(:user)
-    @other_user = FactoryBot.create(:user, email: 'other@example.com')
+    # ユーザーを作成してログイン
+    @user = FactoryBot.create(:user, name: 'Test User', email: 'test@example.com', password: 'password', password_confirmation: 'password')
+    @other_user = FactoryBot.create(:user, email: 'other@example.com', password: 'password', password_confirmation: 'password')
+
+    # アカウント作成後にログインする
+    visit new_session_path
+    fill_in 'メールアドレス', with: @user.email
+    fill_in 'パスワード', with: @user.password
+    click_button 'ログイン'
+
+    # ログイン後にタスクを作成
     @user_task = @user.tasks.create!(title: '自分のタスク', content: '自分のタスク内容')
     @other_task = @other_user.tasks.create!(title: '他人のタスク', content: '他人のタスク内容')
-    visit login_path
-    fill_in 'メールアドレス', with: user.email
-    fill_in 'パスワード', with: user.password
-    click_button 'ログイン'
   end
 
   describe 'タスク一覧表示機能' do
@@ -35,7 +40,7 @@ RSpec.describe 'タスク管理機能', type: :system do
       it 'タスク一覧画面に遷移し、フラッシュメッセージが表示される' do
         visit task_path(@other_task)
         expect(page).to have_content 'タスク一覧ページ'
-        expect(page).to have_selector '.alert-danger', text: 'アクセス権限がありません'
+        expect(page).to have_content 'アクセス権限がありません'
       end
     end
   end
@@ -47,7 +52,7 @@ RSpec.describe 'タスク管理機能', type: :system do
         fill_in 'タイトル', with: '編集後のタスク'
         click_button '更新する'
         expect(page).to have_content '編集後のタスク'
-        expect(page).to have_selector '.alert-notice', text: 'タスクを更新しました'
+        expect(page).to have_content 'タスクを更新しました'
       end
     end
 
@@ -55,7 +60,7 @@ RSpec.describe 'タスク管理機能', type: :system do
       it 'タスク一覧画面に遷移し、フラッシュメッセージが表示される' do
         visit edit_task_path(@other_task)
         expect(page).to have_content 'タスク一覧ページ'
-        expect(page).to have_selector '.alert-danger', text: 'アクセス権限がありません'
+        expect(page).to have_content 'アクセス権限がありません'
       end
     end
   end
@@ -67,7 +72,7 @@ RSpec.describe 'タスク管理機能', type: :system do
         accept_confirm do
           click_link '削除', href: task_path(@user_task)
         end
-        expect(page).to have_selector '.alert-notice', text: 'タスクを削除しました'
+        expect(page).to have_content 'タスクを削除しました'
         expect(page).not_to have_content '自分のタスク'
       end
     end

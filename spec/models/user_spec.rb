@@ -56,7 +56,7 @@ RSpec.describe User, type: :model do
       it 'バリデーションに失敗する' do
         user = User.new(name: 'Test User', email: 'test@example.com', password: 'password', password_confirmation: 'different')
         expect(user).not_to be_valid
-        expect(user.errors[:password_confirmation]).to include('とパスワードの入力が一致しません')
+        expect(user.errors[:password_confirmation]).to include('が一致しません')
       end
     end
 

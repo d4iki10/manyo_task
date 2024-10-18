@@ -24,7 +24,7 @@ ja:
         blank: "を入力してください"
         taken: "はすでに使用されています"
         too_short: "は%{count}文字以上で入力してください"
-        confirmation: "と%{attribute}の入力が一致しません"
+        confirmation: "が一致しません"
         invalid: "は不正な値です"
         not_a_number: "は数値でなければなりません"
         greater_than_or_equal_to: "は%{count}以上でなければなりません"

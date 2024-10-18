@@ -38,7 +38,8 @@ class TasksController < ApplicationController
   def create
     @task = current_user.tasks.build(task_params)
     if @task.save
-      redirect_to tasks_path, notice: t('flash.create_success', model: Task.model_name.human)
+      flash[:notice] = 'アカウントを登録しました'
+      redirect_to tasks_path
     else
       flash.now[:alert] = 'タスクの作成に失敗しました。'
       render :new
@@ -83,7 +84,7 @@ class TasksController < ApplicationController
   # ログイン必須のフィルタ
   def require_login
     unless logged_in?
-      redirect_to new_sessions_path, alert: 'ログインしてください'
+      redirect_to new_session_path, alert: 'ログインしてください'
     end
   end
 

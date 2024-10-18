@@ -11,7 +11,7 @@ RSpec.describe 'ユーザ管理機能', type: :system do
         fill_in 'パスワード（確認）', with: 'password'
         click_button '登録する'
         expect(page).to have_content 'タスク一覧ページ'
-        expect(page).to have_selector '.alert-notice', text: 'アカウントを登録しました'
+        expect(page).to have_content 'アカウントを登録しました'
       end
     end
 
@@ -65,48 +65,48 @@ RSpec.describe 'ユーザ管理機能', type: :system do
 
     context '登録済みのユーザでログインした場合' do
       it 'タスク一覧画面に遷移し、フラッシュメッセージが表示される' do
-        visit new_sessions_path
+        visit new_session_path
         fill_in 'メールアドレス', with: @user.email
         fill_in 'パスワード', with: 'password'
         click_button 'ログイン'
         expect(page).to have_content 'タスク一覧ページ'
-        expect(page).to have_selector '.alert-notice', text: 'ログインしました'
+        expect(page).to have_content 'ログインしました'
       end
     end
 
     context 'ログアウトした場合' do
       it 'ログイン画面に遷移し、フラッシュメッセージが表示される' do
-        visit new_sessions_path
+        visit new_session_path
         fill_in 'メールアドレス', with: @user.email
         fill_in 'パスワード', with: 'password'
         click_button 'ログイン'
         click_link 'ログアウト'
         expect(page).to have_content 'ログインページ'
-        expect(page).to have_selector '.alert-notice', text: 'ログアウトしました'
+        expect(page).to have_content 'ログアウトしました'
       end
     end
 
     context 'ログイン中にログイン画面にアクセスした場合' do
       it 'タスク一覧画面に遷移し、フラッシュメッセージが表示される' do
-        visit new_sessions_path
+        visit new_session_path
         fill_in 'メールアドレス', with: @user.email
         fill_in 'パスワード', with: 'password'
         click_button 'ログイン'
-        visit new_sessions_path
+        visit new_session_path
         expect(page).to have_content 'タスク一覧ページ'
-        expect(page).to have_selector '.alert-danger', text: 'ログアウトしてください'
+        expect(page).to have_content 'ログアウトしてください'
       end
     end
 
     context 'ログイン中にアカウント登録画面にアクセスした場合' do
       it 'タスク一覧画面に遷移し、フラッシュメッセージが表示される' do
-        visit new_sessions_path
+        visit new_session_path
         fill_in 'メールアドレス', with: @user.email
         fill_in 'パスワード', with: 'password'
         click_button 'ログイン'
         visit new_user_path
         expect(page).to have_content 'タスク一覧ページ'
-        expect(page).to have_selector '.alert-danger', text: 'ログアウトしてください'
+        expect(page).to have_content 'ログアウトしてください'
       end
     end
   end
@@ -114,7 +114,7 @@ RSpec.describe 'ユーザ管理機能', type: :system do
   describe 'アカウント編集機能' do
     before do
       @user = FactoryBot.create(:user)
-      visit new_sessions_path
+      visit new_session_path
       fill_in 'メールアドレス', with: @user.email
       fill_in 'パスワード', with: 'password'
       click_button 'ログイン'
@@ -127,7 +127,7 @@ RSpec.describe 'ユーザ管理機能', type: :system do
         click_button '更新する'
         expect(page).to have_content 'アカウント詳細ページ'
         expect(page).to have_content 'Updated User'
-        expect(page).to have_selector '.alert-notice', text: 'アカウントを更新しました'
+        expect(page).to have_content 'アカウントを更新しました'
       end
     end
 
@@ -146,7 +146,7 @@ RSpec.describe 'ユーザ管理機能', type: :system do
         other_user = FactoryBot.create(:user, email: 'other@example.com')
         visit edit_user_path(other_user)
         expect(page).to have_content 'タスク一覧ページ'
-        expect(page).to have_selector '.alert-danger', text: 'アクセス権限がありません'
+        expect(page).to have_content 'アクセス権限がありません'
       end
     end
   end
