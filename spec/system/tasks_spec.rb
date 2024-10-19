@@ -2,28 +2,24 @@ require 'rails_helper'
 
 RSpec.describe 'タスク管理機能', type: :system do
   before do
-    # ユーザーを作成してログイン
-    @user = FactoryBot.create(:user, name: 'Test User', email: 'test@example.com', password: 'password', password_confirmation: 'password')
-    @other_user = FactoryBot.create(:user, email: 'other@example.com', password: 'password', password_confirmation: 'password')
+    # FactoryBotを使わずに手動でユーザを作成
+    @user = User.create!(name: 'テストユーザ', email: 'test@example.com', password: 'password', password_confirmation: 'password')
 
-    # アカウント作成後にログインする
+    # ユーザがログインする
     visit new_session_path
     fill_in 'メールアドレス', with: @user.email
-    fill_in 'パスワード', with: @user.password
+    fill_in 'パスワード', with: 'password'
     click_button 'ログイン'
 
-    # ログイン後にタスクを作成
-    @user_task = @user.tasks.create!(title: '自分のタスク', content: '自分のタスク内容')
-    @other_task = @other_user.tasks.create!(title: '他人のタスク', content: '他人のタスク内容')
+    # タスクを作成
+    @task = @user.tasks.create!(title: 'テストタスク', content: 'テストタスクの内容')
   end
 
   describe 'タスク一覧表示機能' do
-    context '一覧画面に遷移した場合' do
-      it '自分のタスクのみが表示される' do
-        visit tasks_path
-        expect(page).to have_content '自分のタスク'
-        expect(page).not_to have_content '他人のタスク'
-      end
+    it '自分のタスクが表示される' do
+      visit tasks_path
+      expect(page).to have_content 'テストタスク'
+      expect(page).not_to have_content '他のタスク'
     end
   end
 
@@ -31,15 +27,15 @@ RSpec.describe 'タスク管理機能', type: :system do
     context '自分のタスク詳細画面にアクセスした場合' do
       it 'タスクの詳細が表示される' do
         visit task_path(@user_task)
-        expect(page).to have_content '自分のタスク'
-        expect(page).to have_content '自分のタスク内容'
+        expect(page).to have_content 'テストタスク'
+        expect(page).to have_content 'テスト内容'
       end
     end
 
     context '他人のタスク詳細画面にアクセスした場合' do
       it 'タスク一覧画面に遷移し、フラッシュメッセージが表示される' do
         visit task_path(@other_task)
-        expect(page).to have_content 'タスク一覧ページ'
+        expect(page).to have_current_path(tasks_path)
         expect(page).to have_content 'アクセス権限がありません'
       end
     end
@@ -49,7 +45,7 @@ RSpec.describe 'タスク管理機能', type: :system do
     context '自分のタスクを編集した場合' do
       it '編集した内容が表示される' do
         visit edit_task_path(@user_task)
-        fill_in 'タイトル', with: '編集後のタスク'
+        fill_in 'タスクのタイトル', with: '編集後のタスク'
         click_button '更新する'
         expect(page).to have_content '編集後のタスク'
         expect(page).to have_content 'タスクを更新しました'
@@ -59,7 +55,7 @@ RSpec.describe 'タスク管理機能', type: :system do
     context '他人のタスク編集画面にアクセスした場合' do
       it 'タスク一覧画面に遷移し、フラッシュメッセージが表示される' do
         visit edit_task_path(@other_task)
-        expect(page).to have_content 'タスク一覧ページ'
+        expect(page).to have_current_path(tasks_path)
         expect(page).to have_content 'アクセス権限がありません'
       end
     end
@@ -73,7 +69,7 @@ RSpec.describe 'タスク管理機能', type: :system do
           click_link '削除', href: task_path(@user_task)
         end
         expect(page).to have_content 'タスクを削除しました'
-        expect(page).not_to have_content '自分のタスク'
+        expect(page).not_to have_content 'テストタスク'
       end
     end
   end

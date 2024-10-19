@@ -5,7 +5,7 @@ class TasksController < ApplicationController
 
   # タスク一覧画面（Read）
   def index
-    @tasks = current_user.tasks
+    @tasks = current_user.tasks.page(params[:page])
 
     # 検索機能の実装
     if params[:search].present?
@@ -67,23 +67,24 @@ class TasksController < ApplicationController
 
   private
 
-  # Strong Parametersの設定
-  def task_params
-    params.require(:task).permit(:title, :content, :deadline_on, :priority, :status)
-  end
-
   # 共通処理：@taskのセット
   def set_task
-    if current_user.admin?
-      @task = Task.find(params[:id])
-    else
-      @task = current_user.tasks.find(params[:id])
+    @task = Task.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    flash[:alert] = "タスクが見つかりません"
+    redirect_to tasks_path  # タスク一覧ページにリダイレクト
+  end
+
+  # アクセス権限のチェック
+  def authorize_user
+    unless current_user.admin? || @task.user == current_user
+      flash[:alert] = "アクセス権がありません"
+      redirect_to tasks_path  # タスク一覧ページにリダイレクト
     end
   end
 
-  def authorize_user
-    unless current_user.admin? || @task.user == current_user
-      redirect_to tasks_path, alert: 'アクセス権限がありません'
-    end
+  # Strong Parameters
+  def task_params
+    params.require(:task).permit(:title, :content, :deadline_on, :priority, :status)
   end
 end

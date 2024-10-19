@@ -7,4 +7,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :users
   end
+
+  get '/sessions', to: redirect('/sessions/new')
+  get '/users', to: redirect('/users/new')
 end

@@ -48,14 +48,21 @@ class UsersController < ApplicationController
   private
 
   def set_user
-    @user = User.find(params[:id])
+    @user = User.find_by(id: params[:id])
+    unless @user
+      flash[:alert] = "ユーザが見つかりません"
+      redirect_to user_path(current_user)
+    end
+  end
+
+  def correct_user
+    if @user && !current_user?(@user)
+      flash[:alert] = "アクセス権がありません"
+      redirect_to user_path(current_user)
+    end
   end
 
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
-  end
-
-  def correct_user
-    redirect_to current_path unless current_user?(@user)
   end
 end

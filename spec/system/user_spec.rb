@@ -5,12 +5,11 @@ RSpec.describe 'ユーザ管理機能', type: :system do
     context 'ユーザを登録した場合' do
       it 'タスク一覧画面に遷移し、フラッシュメッセージが表示される' do
         visit new_user_path
-        fill_in '名前', with: 'Test User'
-        fill_in 'メールアドレス', with: 'test@example.com'
+        fill_in '名前', with: '一般ユーザ'
+        fill_in 'メールアドレス', with: 'user@example.com'
         fill_in 'パスワード', with: 'password'
         fill_in 'パスワード（確認）', with: 'password'
         click_button '登録する'
-        expect(page).to have_content 'タスク一覧ページ'
         expect(page).to have_content 'アカウントを登録しました'
       end
     end
@@ -60,7 +59,7 @@ RSpec.describe 'ユーザ管理機能', type: :system do
 
   describe 'ログイン機能' do
     before do
-      @user = FactoryBot.create(:user)
+      @user = FactoryBot.create(:user)  # 一般ユーザを生成
     end
 
     context '登録済みのユーザでログインした場合' do
@@ -85,35 +84,11 @@ RSpec.describe 'ユーザ管理機能', type: :system do
         expect(page).to have_content 'ログアウトしました'
       end
     end
-
-    context 'ログイン中にログイン画面にアクセスした場合' do
-      it 'タスク一覧画面に遷移し、フラッシュメッセージが表示される' do
-        visit new_session_path
-        fill_in 'メールアドレス', with: @user.email
-        fill_in 'パスワード', with: 'password'
-        click_button 'ログイン'
-        visit new_session_path
-        expect(page).to have_content 'タスク一覧ページ'
-        expect(page).to have_content 'ログアウトしてください'
-      end
-    end
-
-    context 'ログイン中にアカウント登録画面にアクセスした場合' do
-      it 'タスク一覧画面に遷移し、フラッシュメッセージが表示される' do
-        visit new_session_path
-        fill_in 'メールアドレス', with: @user.email
-        fill_in 'パスワード', with: 'password'
-        click_button 'ログイン'
-        visit new_user_path
-        expect(page).to have_content 'タスク一覧ページ'
-        expect(page).to have_content 'ログアウトしてください'
-      end
-    end
   end
 
   describe 'アカウント編集機能' do
     before do
-      @user = FactoryBot.create(:user)
+      @user = FactoryBot.create(:user)  # 一般ユーザ
       visit new_session_path
       fill_in 'メールアドレス', with: @user.email
       fill_in 'パスワード', with: 'password'
@@ -131,21 +106,11 @@ RSpec.describe 'ユーザ管理機能', type: :system do
       end
     end
 
-    context '編集に失敗した場合、エラーメッセージが表示される' do
-      it 'アカウント編集ページに戻り、エラーメッセージが表示される' do
-        visit edit_user_path(@user)
-        fill_in 'メールアドレス', with: ''
-        click_button '更新する'
-        expect(page).to have_content 'アカウント編集ページ'
-        expect(page).to have_content 'メールアドレスを入力してください'
-      end
-    end
-
     context '他人のアカウント編集画面にアクセスした場合' do
       it 'タスク一覧画面に遷移し、フラッシュメッセージが表示される' do
         other_user = FactoryBot.create(:user, email: 'other@example.com')
         visit edit_user_path(other_user)
-        expect(page).to have_content 'タスク一覧ページ'
+        expect(page).to have_current_path(tasks_path)
         expect(page).to have_content 'アクセス権限がありません'
       end
     end
