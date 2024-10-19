@@ -1,4 +1,16 @@
 <%= form_with(model: task, local: true) do |form| %>
+    <% if task.errors.any? %>
+        <div id="error_explanation">
+            <ul>
+                <% if @task&.errors&.any? %>
+                    <% @task.errors.full_messages.each do |message| %>
+                        <li><%= message.gsub(' ', '') %></li>
+                    <% end %>
+            <% end %>
+            </ul>
+        </div>
+    <% end %>
+
     <p>
         <%= form.label :title %><br>
         <%= form.text_field :title, id: 'task_title' %>

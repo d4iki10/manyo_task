@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :require_login
+  before_action :login_required
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   before_action :authorize_user, only: [:show, :edit, :update, :destroy]
 
@@ -53,7 +53,7 @@ class TasksController < ApplicationController
   # タスクの更新処理（Update）
   def update
     if @task.update(task_params)
-      redirect_to @task, notice: t('flash.update_success', model: Task.model_name.human)
+      redirect_to task_path(@task), notice: t('flash.update_success', model: Task.model_name.human)
     else
       render :edit
     end
@@ -62,7 +62,7 @@ class TasksController < ApplicationController
   # タスクの削除処理（Delete）
   def destroy
     @task.destroy
-    redirect_to tasks_url, notice: t('flash.destroy_success', model: Task.model_name.human)
+    redirect_to tasks_path, notice: t('flash.destroy_success', model: Task.model_name.human)
   end
 
   private
@@ -78,13 +78,6 @@ class TasksController < ApplicationController
       @task = Task.find(params[:id])
     else
       @task = current_user.tasks.find(params[:id])
-    end
-  end
-
-  # ログイン必須のフィルタ
-  def require_login
-    unless logged_in?
-      redirect_to new_session_path, alert: 'ログインしてください'
     end
   end
 

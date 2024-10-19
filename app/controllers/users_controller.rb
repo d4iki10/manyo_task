@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
-  before_action :require_login, except: [:new, :create]
-  before_action :redirect_logged_in_user, only: [:new, :create]
+  skip_before_action :login_required, only: [:new, :create]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :correct_user, only: [:show, :edit, :update, :destroy]
 
@@ -38,7 +37,6 @@ class UsersController < ApplicationController
 
   def destroy
     if @user.destroy
-      reset_session
       flash[:notice] = 'アカウントを削除しました'
       redirect_to new_session_path
     else
@@ -50,31 +48,14 @@ class UsersController < ApplicationController
   private
 
   def set_user
-    @user = current_user
+    @user = User.find(params[:id])
   end
 
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
 
-  def require_login
-    unless logged_in?
-      flash[:alert] = t('flash.login_required')
-      redirect_to new_session_path
-    end
-  end
-
   def correct_user
-    unless @user == current_user
-      flash[:alert] = 'アクセス権限がありません'
-      redirect_to tasks_path
-    end
-  end
-
-  def redirect_logged_in_user
-    if logged_in?
-      flash[:alert] = t('flash.logout_required')
-      redirect_to tasks_path
-    end
+    redirect_to current_path unless current_user?(@user)
   end
 end

@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  before_action :redirect_logged_in_user, only: [:new, :create]
+  skip_before_action :login_required, only: [:new, :create]
 
   def new
     # ログインフォームを表示
@@ -21,14 +21,5 @@ class SessionsController < ApplicationController
     session.delete(:user_id)
     flash[:notice] = t('flash.logout')
     redirect_to new_session_path
-  end
-
-  private
-
-  def redirect_logged_in_user
-    if logged_in?
-      flash[:notice] = t('flash.logout_required')
-      redirect_to tasks_path
-    end
   end
 end

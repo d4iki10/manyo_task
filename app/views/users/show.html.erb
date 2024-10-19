@@ -3,5 +3,5 @@
 <p>名前: <%= @user.name %></p>
 <p>メールアドレス: <%= @user.email %></p>
 
-<%= link_to t('helpers.submit.edit'), edit_user_path, id: 'edit-user' %>
+<%= link_to t('helpers.submit.edit'), edit_user_path(@user), id: 'edit-user' %>
 <%= link_to t('helpers.submit.destroy'), user_path(@user), method: :delete, data: { confirm: t('helpers.confirm.destroy') }, id: "destroy-user" %>

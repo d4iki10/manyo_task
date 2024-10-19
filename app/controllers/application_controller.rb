@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  include SessionsHelper
+  before_action :login_required
   helper_method :current_user, :logged_in?
 
   private
@@ -11,7 +13,7 @@ class ApplicationController < ActionController::Base
     current_user.present?
   end
 
-  def require_login
+  def login_required
     unless logged_in?
       flash[:alert] = 'ログインしてください'
       redirect_to new_session_path
