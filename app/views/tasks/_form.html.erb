@@ -1,29 +1,29 @@
-<%= form_with(model: task, local: true) do |form| %>
-    <% if task.errors.any? %>
-        <div id="error_explanation">
-            <ul>
-                <% if @task&.errors&.any? %>
-                    <% @task.errors.full_messages.each do |message| %>
-                        <li><%= message.gsub(' ', '') %></li>
-                    <% end %>
-            <% end %>
-            </ul>
-        </div>
-    <% end %>
+<% if task.errors.any? %>
+    <div id="error_explanation">
+        <ul>
+            <% if @task&.errors&.any? %>
+                <% @task.errors.full_messages.each do |message| %>
+                    <li><%= message.gsub(' ', '') %></li>
+                <% end %>
+        <% end %>
+        </ul>
+    </div>
+<% end %>
 
+<%= form_with(model: task, local: true) do |form| %>
     <p>
         <%= form.label :title %><br>
-        <%= form.text_field :title, id: 'task_title' %>
+        <%= form.text_field :title %>
     </p>
 
     <p>
         <%= form.label :content %><br>
-        <%= form.text_area :content, id: 'task_content' %>
+        <%= form.text_area :content %>
     </p>
 
     <p>
         <%= form.label :deadline_on, '終了期限' %><br>
-        <%= form.date_field :deadline_on %>
+        <%= form.date_field :deadline_on, min: Date.current %>
     </p>
 
     <p>

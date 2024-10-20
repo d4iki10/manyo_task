@@ -1,16 +1,16 @@
 <h1>ユーザ登録ページ</h1>
 
-<%= form_with(model: @user, url: admin_users_path, local: true) do |form| %>
-    <% if @user.errors.any? %>
-        <div id="error_explanation">
-            <ul>
-                <% @user.errors.full_messages.each do |message| %>
-                <li><%= message.gsub(' ', '') %></li>
-                <% end %>
-            </ul>
-        </div>
-    <% end %>
+<% if @user.errors.any? %>
+    <div id="error_explanation">
+        <ul>
+            <% @user.errors.full_messages.each do |message| %>
+            <li><%= message.gsub(' ', '') %></li>
+            <% end %>
+        </ul>
+    </div>
+<% end %>
 
+<%= form_with(model: @user, url: admin_users_path, local: true) do |form| %>
     <p>
         <%= form.label :name, '名前' %><br>
         <%= form.text_field :name %>

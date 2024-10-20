@@ -10,7 +10,7 @@
     </div>
 <% end %>
 
-<%= form_with(model: [:admin, @user],method: :patch, local: true) do |form| %>
+<%= form_with(model: @user, url: admin_user_path(@user), method: :patch, local: true) do |form| %>
     <p>
         <%= form.label :name, t('name') %><br>
         <%= form.text_field :name %>
@@ -37,7 +37,7 @@
     </p>
 
     <p>
-        <%= form.submit t('edit.update_task'), id: 'update-user' %>
+        <%= form.submit t('tasks.edit.update_task'), id: 'update-user' %>
     </p>
 <% end %>
-<%= link_to t('edit.back'), admin_users_path, id: 'back' %>
+<%= link_to t('tasks.edit.back'), admin_users_path, id: 'back' %>

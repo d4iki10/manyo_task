@@ -1,17 +1,15 @@
 <h1><%= t('tasks.index.title') %></h1>
 
 <!-- 検索フォーム -->
-<%= form_with(url: tasks_path, method: :get, scope: :search, id: "search_task", local: true) do |form| %>
-    <p>
-        <%= form.label :title, 'タイトル' %>
-        <%= form.text_field :title %>
-    </p>
-
+<%= form_with(url: tasks_path, method: :get, scope: :search, local: true) do |form| %>
     <p>
         <%= form.label :status, 'ステータス' %>
         <%= form.select :status, options_for_select([['未着手', '0'], ['着手中', '1'], ['完了', '2']], selected: ''), prompt: '' %>
     </p>
-
+    <p>
+        <%= form.label :title, 'タイトル' %>
+        <%= form.text_field :title %>
+    </p>
     <p>
         <%= form.submit '検索', id: 'search_task' %>
     </p>
