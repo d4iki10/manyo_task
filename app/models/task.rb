@@ -11,7 +11,7 @@ class Task < ApplicationRecord
   enum status: { not_started: 0, in_progress: 1, completed: 2 }
 
   # 検索スコープの定義
-  scope :search_title, ->(keyword) { where('title LIKE ?', "%#{keyword}%") }
+  scope :search_title, ->(title) { where('title LIKE ?', "%#{title}%") }
   scope :search_status, ->(status) { where(status: status) }
   # ソートスコープの定義
   scope :sorted_by_deadline, -> { order(deadline_on: :asc) }

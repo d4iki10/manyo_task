@@ -1,8 +1,6 @@
-# app/controllers/admin/users_controller.rb
 module Admin
   class UsersController < ApplicationController
     before_action :admin_user
-    before_action :set_user, only: [:show, :edit, :update, :destroy]
 
     def index
       @users = User.all.includes(:tasks)
@@ -23,13 +21,16 @@ module Admin
 
     def show
       # 管理者用のユーザー詳細表示
+      @user = User.find(params[:id])
     end
 
     def edit
       # 管理者用のユーザー編集
+      @user = User.find(params[:id])
     end
 
     def update
+      @user = User.find(params[:id])
       if @user.update(user_params)
         redirect_to admin_users_path, notice: t('flash.update_success', model: t('activerecord.models.user'))
       else
@@ -38,6 +39,7 @@ module Admin
     end
 
     def destroy
+      @user = User.find(params[:id])
       if @user.admin? && User.where(admin: true).count <= 1
         redirect_to admin_users_path, alert: t('flash.delete_last_admin')
       else
@@ -47,10 +49,6 @@ module Admin
     end
 
     private
-
-    def set_user
-      @user = User.find(params[:id])
-    end
 
     def user_params
       params.require(:user).permit(:name, :email, :password, :password_confirmation, :admin)

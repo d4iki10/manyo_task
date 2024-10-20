@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
   skip_before_action :login_required, only: [:new, :create]
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :correct_user, only: [:show, :edit, :update, :destroy]
+  before_action :correct_user, only: [:show]
 
   def new
     @user = User.new
@@ -10,7 +9,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      session[:user_id] = @user.id
+      log_in(@user)
       flash[:notice] = t('flash.account_created')
       redirect_to tasks_path
     else
@@ -20,13 +19,16 @@ class UsersController < ApplicationController
 
   def show
     # 自分のアカウント詳細を表示
+    @user = User.find(params[:id])
   end
 
   def edit
     # 自分のアカウント編集
+    @user = User.find(params[:id])
   end
 
   def update
+    @user = User.find(params[:id])
     if @user.update(user_params)
       flash[:notice] = 'アカウントを更新しました'
       redirect_to user_path
@@ -36,33 +38,20 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    if @user.destroy
-      flash[:notice] = 'アカウントを削除しました'
-      redirect_to new_session_path
-    else
-      flash[:alert] = 'アカウント削除に失敗しました'
-      redirect_to user_path
-    end
+    @user = User.find(params[:id])
+    @user.destroy
+    flash[:notice] = 'アカウントを削除しました'
+    redirect_to new_session_path
   end
 
   private
 
-  def set_user
-    @user = User.find_by(id: params[:id])
-    unless @user
-      flash[:alert] = "ユーザが見つかりません"
-      redirect_to user_path(current_user)
-    end
+  def user_params
+    params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
 
   def correct_user
-    if @user && !current_user?(@user)
-      flash[:alert] = "アクセス権がありません"
-      redirect_to user_path(current_user)
-    end
-  end
-
-  def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    @user = User.find(params[:id])
+    redirect_to current_user unless current_user?(@user)
   end
 end

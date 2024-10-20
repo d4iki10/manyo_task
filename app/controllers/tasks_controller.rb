@@ -1,6 +1,5 @@
 class TasksController < ApplicationController
   before_action :login_required
-  before_action :set_task, only: [:show, :edit, :update, :destroy]
   before_action :authorize_user, only: [:show, :edit, :update, :destroy]
 
   # タスク一覧画面（Read）
@@ -27,6 +26,7 @@ class TasksController < ApplicationController
 
   # タスク詳細画面（Read）
   def show
+    @task = Task.find(params[:id])
   end
 
   # タスク登録画面の表示（Create）
@@ -48,10 +48,12 @@ class TasksController < ApplicationController
 
   # タスク編集画面の表示（Update）
   def edit
+    @task = Task.find(params[:id])
   end
 
   # タスクの更新処理（Update）
   def update
+    @task = Task.find(params[:id])
     if @task.update(task_params)
       redirect_to task_path(@task), notice: t('flash.update_success', model: Task.model_name.human)
     else
@@ -61,19 +63,12 @@ class TasksController < ApplicationController
 
   # タスクの削除処理（Delete）
   def destroy
+    @task = Task.find(params[:id])
     @task.destroy
     redirect_to tasks_path, notice: t('flash.destroy_success', model: Task.model_name.human)
   end
 
   private
-
-  # 共通処理：@taskのセット
-  def set_task
-    @task = Task.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    flash[:alert] = "タスクが見つかりません"
-    redirect_to tasks_path  # タスク一覧ページにリダイレクト
-  end
 
   # アクセス権限のチェック
   def authorize_user
