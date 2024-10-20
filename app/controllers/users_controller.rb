@@ -47,7 +47,11 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    if params[:user][:password].blank? && params[:user][:password_confirmation].blank?
+      params.require(:user).permit(:name, :email)
+    else
+      params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    end
   end
 
   def correct_user

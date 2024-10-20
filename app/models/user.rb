@@ -9,7 +9,8 @@ class User < ApplicationRecord
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: { case_sensitive: false, message: 'メールアドレスはすでに使用されています' }
-  validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
+  validates :password, presence: true, length: { minimum: 6 }
+  validates :password_confirmation, presence: true
 
   private
 

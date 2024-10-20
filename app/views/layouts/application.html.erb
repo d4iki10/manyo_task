@@ -27,8 +27,28 @@
         <% end %>
       </ul>
     </nav>
-    <% flash.each do |key, value| %>
-      <%= content_tag(:div, value, class: "#{key}") %>
+    <!-- バリデーションメッセージを共通表示 -->
+    <% if (defined?(@user) && @user&.errors&.any?) || (defined?(@task) && @task&.errors&.any?) %>
+      <div id="error_explanation">
+        <ul>
+          <% if @user&.errors&.any? %>
+            <% @user.errors.full_messages.each do |message| %>
+              <li><%= message.gsub(' ', '') %></li>
+            <% end %>
+          <% end %>
+          <% if @task&.errors&.any? %>
+            <% @task.errors.full_messages.each do |message| %>
+              <li><%= message.gsub(' ', '') %></li>
+            <% end %>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <!-- フラッシュメッセージの共通表示 -->
+    <% flash.each do |key, message| %>
+      <div class="flash <%= key %>">
+        <li><%= message.gsub(' ', '') %></li>
+      </div>
     <% end %>
     <%= yield %>
   </body>

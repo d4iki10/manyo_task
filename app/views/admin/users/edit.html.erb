@@ -1,38 +1,28 @@
 <h1>ユーザ編集ページ</h1>
 
-<% if @user.errors.any? %>
-    <div id="error_explanation">
-        <ul>
-            <% @user.errors.full_messages.each do |message| %>
-            <li><%= message.gsub(' ', '') %></li>
-            <% end %>
-        </ul>
-    </div>
-<% end %>
-
 <%= form_with(model: @user, url: admin_user_path(@user), method: :patch, local: true) do |form| %>
     <p>
-        <%= form.label :name, t('name') %><br>
+        <%= form.label :name, t('activerecord.attributes.user.name') %><br>
         <%= form.text_field :name %>
     </p>
 
     <p>
-        <%= form.label :email, t('email') %><br>
+        <%= form.label :email, t('activerecord.attributes.user.email') %><br>
         <%= form.email_field :email %>
     </p>
 
     <p>
-        <%= form.label :password, t('password') %><br>
+        <%= form.label :password, t('activerecord.attributes.user.password') %><br>
         <%= form.password_field :password %>
     </p>
 
     <p>
-        <%= form.label :password_confirmation, t('password_confirmation') %><br>
+        <%= form.label :password_confirmation, t('activerecord.attributes.user.password_confirmation') %><br>
         <%= form.password_field :password_confirmation %>
     </p>
 
     <p>
-        <%= form.label :admin, t('admin') %><br>
+        <%= form.label :admin, t('activerecord.attributes.user.admin') %><br>
         <%= form.check_box :admin %>
     </p>
 
