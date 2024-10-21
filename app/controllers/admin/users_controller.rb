@@ -41,7 +41,7 @@ module Admin
     def destroy
       @user = User.find(params[:id])
       if @user.admin? && User.where(admin: true).count <= 1
-        redirect_to admin_users_path, alert: t('flash.delete_last_admin')
+        redirect_to admin_users_path, alert: t('alert.delete_last_admin')
       else
         @user.destroy
         redirect_to admin_users_path, notice: t('flash.user_destroyed', model: t('activerecord.models.user'))

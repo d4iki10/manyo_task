@@ -55,7 +55,7 @@ class TasksController < ApplicationController
   def update
     @task = Task.find(params[:id])
     if @task.update(task_params)
-      redirect_to task_path(@task), notice: t('flash.update_success', model: Task.model_name.human)
+      redirect_to task_path(@task), notice: t('flash.task_updated', model: Task.model_name.human)
     else
       render :edit
     end
@@ -65,7 +65,7 @@ class TasksController < ApplicationController
   def destroy
     @task = Task.find(params[:id])
     @task.destroy
-    redirect_to tasks_path, notice: t('flash.destroy_success', model: Task.model_name.human)
+    redirect_to tasks_path, notice: t('flash.task_destroyed', model: Task.model_name.human)
   end
 
   private
