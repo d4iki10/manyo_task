@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   skip_before_action :login_required, only: [:new, :create]
   before_action :correct_user, only: [:show]
+  before_action :redirect_logged_in_user, only: [:new]
 
   def new
     @user = User.new
@@ -57,5 +58,13 @@ class UsersController < ApplicationController
   def correct_user
     @user = User.find(params[:id])
     redirect_to current_user unless current_user?(@user)
+  end
+
+  # ログイン中のユーザーがアカウント登録画面にアクセスしようとしたらリダイレクト
+  def redirect_logged_in_user
+    if logged_in?
+      flash[:alert] = 'ログアウトしてください'
+      redirect_to tasks_path
+    end
   end
 end

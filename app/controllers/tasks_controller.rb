@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   before_action :login_required
-  before_action :authorize_user, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_user, only: [:show, :edit]
 
   # タスク一覧画面（Read）
   def index
@@ -73,7 +73,7 @@ class TasksController < ApplicationController
   # アクセス権限のチェック
   def authorize_user
     unless current_user.admin? || @task.user == current_user
-      flash[:alert] = "アクセス権がありません"
+      flash[:alert] = "アクセス権限がありません"
       redirect_to tasks_path  # タスク一覧ページにリダイレクト
     end
   end

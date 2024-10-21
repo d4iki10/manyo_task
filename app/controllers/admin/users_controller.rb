@@ -13,7 +13,7 @@ module Admin
     def create
       @user = User.new(user_params)
       if @user.save
-        redirect_to admin_users_path, notice: I18n.t('flash.user_created', model: I18n.t('activerecord.models.user'))
+        redirect_to admin_users_path, notice: t('flash.user_created', model: t('activerecord.models.user'))
       else
         render :new
       end
