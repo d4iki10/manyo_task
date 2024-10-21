@@ -13,7 +13,7 @@ module Admin
     def create
       @user = User.new(user_params)
       if @user.save
-        redirect_to admin_users_path, notice: t('flash.user_created', model: t('activerecord.models.user'))
+        redirect_to admin_users_path, notice: t('flash.user_created')
       else
         render :new
       end
@@ -32,7 +32,7 @@ module Admin
     def update
       @user = User.find(params[:id])
       if @user.update(user_params)
-        redirect_to admin_users_path, notice: t('flash.user_updated', model: t('activerecord.models.user'))
+        redirect_to admin_users_path, notice: t('flash.user_updated')
       else
         render :edit
       end
@@ -44,7 +44,7 @@ module Admin
         redirect_to admin_users_path, alert: t('alert.delete_last_admin')
       else
         @user.destroy
-        redirect_to admin_users_path, notice: t('flash.user_destroyed', model: t('activerecord.models.user'))
+        redirect_to admin_users_path, notice: t('flash.user_destroyed')
       end
     end
 
