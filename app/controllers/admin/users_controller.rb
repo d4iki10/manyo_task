@@ -13,7 +13,8 @@ module Admin
     def create
       @user = User.new(user_params)
       if @user.save
-        redirect_to admin_users_path, notice: t('flash.user_created')
+        flash[:notice] = t('flash.user_created')
+        redirect_to admin_users_path
       else
         render :new
       end
@@ -32,7 +33,8 @@ module Admin
     def update
       @user = User.find(params[:id])
       if @user.update(user_params)
-        redirect_to admin_users_path, notice: t('flash.user_updated')
+        flash[:notice] = t('flash.user_updated')
+        redirect_to admin_users_path
       else
         render :edit
       end
@@ -41,10 +43,12 @@ module Admin
     def destroy
       @user = User.find(params[:id])
       if @user.admin? && User.where(admin: true).count <= 1
-        redirect_to admin_users_path, alert: t('alert.delete_last_admin')
+        flash[:alert] = t('alert.delete_last_admin')
+        redirect_to admin_users_path
       else
         @user.destroy
-        redirect_to admin_users_path, notice: t('flash.user_destroyed')
+        flash[:notice] = t('flash.user_destroyed')
+        redirect_to admin_users_path
       end
     end
 

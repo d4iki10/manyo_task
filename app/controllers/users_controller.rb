@@ -31,7 +31,7 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update(user_params)
-      flash[:notice] = 'アカウントを更新しました'
+      flash[:notice] = t('flash.account_updated')
       redirect_to user_path
     else
       render :edit
@@ -41,7 +41,7 @@ class UsersController < ApplicationController
   def destroy
     @user = User.find(params[:id])
     @user.destroy
-    flash[:notice] = 'アカウントを削除しました'
+    flash[:notice] = t('flash.account_destroyed')
     redirect_to new_session_path
   end
 
