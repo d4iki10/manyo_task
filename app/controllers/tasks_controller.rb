@@ -72,6 +72,16 @@ class TasksController < ApplicationController
 
   # アクセス権限のチェック
   def authorize_user
+    @task = Task.find_by(id: params[:id])
+
+    # タスクが存在しない場合のハンドリング
+    unless @task
+      flash[:alert] = "タスクが見つかりません"
+      redirect_to tasks_path
+      return
+    end
+
+    # ユーザーが管理者でもなく、タスクの所有者でもない場合
     unless current_user.admin? || @task.user == current_user
       flash[:alert] = "アクセス権限がありません"
       redirect_to tasks_path  # タスク一覧ページにリダイレクト
