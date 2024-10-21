@@ -10,6 +10,7 @@ class TasksController < ApplicationController
     if params[:search].present?
       @tasks = @tasks.search_title(params[:search][:title]) if params[:search][:title].present?
       @tasks = @tasks.search_status(params[:search][:status]) if params[:search][:status].present?
+      @tasks = @tasks.joins(:labels).where(labels: { id: params[:search][:label_id] }) if params[:search][:label_id].present?
     end
 
     # ソート機能の実装
@@ -90,6 +91,6 @@ class TasksController < ApplicationController
 
   # Strong Parameters
   def task_params
-    params.require(:task).permit(:title, :content, :deadline_on, :priority, :status)
+    params.require(:task).permit(:title, :content, :expired_at, :status, :priority, label_ids: [])
   end
 end

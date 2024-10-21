@@ -1,28 +1,22 @@
 <h1>アカウント登録ページ</h1>
 
 <%= form_with(model: @user, local: true) do |form| %>
-    <p>
-        <%= form.label :name, '名前' %><br>
-        <%= form.text_field :name %>
-    </p>
-
-    <p>
-        <%= form.label :email, 'メールアドレス' %><br>
-        <%= form.email_field :email %>
-    </p>
-
-    <p>
-        <%= form.label :password, 'パスワード' %><br>
-        <%= form.password_field :password %>
-    </p>
-
-    <p>
-        <%= form.label :password_confirmation, 'パスワード（確認）' %><br>
-        <%= form.password_field :password_confirmation %>
-    </p>
-
-    <p>
-        <%= form.submit '登録する', id: 'create-user' %>
-    </p>
+    <div class="form-group">
+        <%= form.label :name, '名前', class: 'form-label' %>
+        <%= form.text_field :name, class: 'form-control' %>
+    </div>
+    <div class="form-group">
+        <%= form.label :email, 'メールアドレス', class: 'form-label' %>
+        <%= form.email_field :email, class: 'form-control' %>
+    </div>
+    <div class="form-group">
+        <%= form.label :password, 'パスワード', class: 'form-label' %>
+        <%= form.password_field :password, class: 'form-control' %>
+    </div>
+    <div class="form-group">
+        <%= form.label :password_confirmation, 'パスワード（確認）', class: 'form-label' %>
+        <%= form.password_field :password_confirmation, class: 'form-control' %>
+    </div>
+    <%= form.submit '登録する', id: 'create-user', class: "btn btn-primary" %>
+    <%= link_to '戻る', tasks_path, id: 'back', class: "btn btn-secondary" %>
 <% end %>
-<%= link_to '戻る', tasks_path, id: 'back' %>

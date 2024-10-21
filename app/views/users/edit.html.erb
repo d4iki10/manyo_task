@@ -1,28 +1,26 @@
 <h1>アカウント編集ページ</h1>
 
 <%= form_with(model: @user, url: user_path(@user), local: true) do |form| %>
-    <p>
-        <%= form.label :name, '名前' %><br>
-        <%= form.text_field :name %>
-    </p>
+    <div class="form-group">
+        <%= form.label :name, '名前', class: 'form-label' %>
+        <%= form.text_field :name, class: 'form-control' %>
+    </div>
 
-    <p>
-        <%= form.label :email, 'メールアドレス' %><br>
-        <%= form.email_field :email %>
-    </p>
+    <div class="form-group">
+        <%= form.label :email, 'メールアドレス', class: 'form-label' %>
+        <%= form.email_field :email, class: 'form-control' %>
+    </div>
 
-    <p>
-        <%= form.label :password, 'パスワード' %><br>
-        <%= form.password_field :password %>
-    </p>
+    <div class="form-group">
+        <%= form.label :password, 'パスワード', class: 'form-label' %>
+        <%= form.password_field :password, class: 'form-control' %>
+    </div>
 
-    <p>
-        <%= form.label :password_confirmation, 'パスワード（確認）' %><br>
-        <%= form.password_field :password_confirmation %>
-    </p>
+    <div class="form-group">
+        <%= form.label :password_confirmation, 'パスワード（確認）', class: 'form-label' %>
+        <%= form.password_field :password_confirmation, class: 'form-control' %>
+    </div>
 
-    <p>
-        <%= form.submit '更新する', id: 'update-user' %><br>
-    </p>
+    <%= form.submit '更新する', class: 'btn btn-primary', id: 'update-user' %>
+    <%= link_to '戻る', user_path, class: 'btn btn-secondary', id: 'back' %>
 <% end %>
-<%= link_to '戻る', user_path, id: 'back' %>

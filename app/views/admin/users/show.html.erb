@@ -1,24 +1,29 @@
-<h1>ユーザ詳細ページ</h1>
+<h1 class="h1">ユーザ詳細ページ</h1>
 
-<p>名前: <%= @user.name %></p>
-<p>メールアドレス: <%= @user.email %></p>
-<p>管理者権限: <%= @user.admin? ? 'あり' : 'なし' %></p>
+<dl class="row">
+    <dt class="col-sm-2">名前:</dt>
+    <dd class="col-sm-10"><%= @user.name %></dd>
+    <dt class="col-sm-2">メールアドレス:</dt>
+    <dd class="col-sm-10"><%= @user.email %></dd>
+    <dt class="col-sm-2">管理者権限:</dt>
+    <dd class="col-sm-10"><%= @user.admin? ? 'あり' : 'なし' %></dd>
+</dl>
 
-<table>
+<table class="table">
     <thead>
         <tr>
-        <th>タイトル</th>
-        <th>内容</th>
-        <th>作成日時</th>
-        <th>終了期限</th>
-        <th>優先度</th>
-        <th>ステータス</th>
+            <th scope="col">タイトル</th>
+            <th scope="col">内容</th>
+            <th scope="col">作成日時</th>
+            <th scope="col">終了期限</th>
+            <th scope="col">優先度</th>
+            <th scope="col">ステータス</th>
         </tr>
     </thead>
     <tbody>
         <% @user.tasks.each do |task| %>
         <tr>
-            <td><%= task.title %></td>
+            <td scope="row"><%= task.title %></td>
             <td><%= task.content %></td>
             <td><%= task.created_at.strftime("%Y-%m-%d %H:%M") %></td>
             <td><%= task.deadline_on %></td>

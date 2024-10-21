@@ -6,6 +6,7 @@ class User < ApplicationRecord
   before_destroy :ensure_admin_exists_on_destroy
 
   has_many :tasks, dependent: :destroy
+  has_many :labels
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: { case_sensitive: false, message: 'メールアドレスはすでに使用されています' }

@@ -51,6 +51,23 @@
     color: #666;
     box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
   }
+
+  body {
+    text-align: center;
+    padding: 150px;
+    font: 20px Helvetica, sans-serif;
+    color: #333;
+    background-color: #f0f0f0;
+  }
+
+  h1 {
+    font-size: 50px;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
   </style>
 </head>
 
@@ -58,9 +75,9 @@
   <!-- This file lives in public/500.html -->
   <div class="dialog">
     <div>
-      <h1>We're sorry, but something went wrong.</h1>
+      <img src="/images/500_error.png" alt="500 Error">
+      <h1>サーバー内部で何らかのエラーが発生しています。</h1>
     </div>
-    <p>If you are the application owner check the logs for more information.</p>
   </div>
 </body>
 </html>

@@ -1,7 +1,11 @@
 <h1>アカウント詳細ページ</h1>
 
-<p>名前: <%= @user.name %></p>
-<p>メールアドレス: <%= @user.email %></p>
+<dl class="row">
+    <dt class="col-sm-2">名前:</dt>
+    <dd class="col-sm-10"><%= @user.name %></dd>
+    <dt class="col-sm-2">メールアドレス:</dt>
+    <dd class="col-sm-10"><%= @user.email %></dd>
+</dl>
 
-<%= link_to t('helpers.submit.edit'), edit_user_path(@user), id: 'edit-user' %>
-<%= link_to t('helpers.submit.destroy'), user_path(@user), method: :delete, data: { confirm: t('helpers.confirm.destroy') }, id: "destroy-user" %>
+<%= link_to t('helpers.submit.edit'), edit_user_path(@user), id: 'edit-user', class: "btn btn-primary" %>
+<%= link_to t('helpers.submit.destroy'), user_path(@user), method: :delete, data: { confirm: t('helpers.confirm.destroy') }, id: "destroy-user", class: "btn btn-danger" %>

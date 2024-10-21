@@ -1,0 +1,22 @@
+<%= form_with(model: @label, local: true) do |form| %>
+    <% if @label.errors.any? %>
+        <div id="error_explanation" class="alert alert-danger">
+        <ul>
+            <% @label.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+            <% end %>
+        </ul>
+        </div>
+    <% end %>
+
+    <div class="form-group">
+        <%= form.label :name, '名前' %>
+        <%= form.text_field :name, class: 'form-control' %>
+    </div>
+    <% if @label.new_record? %>
+        <%= form.submit '登録する', class: 'btn btn-primary' %>
+    <% else %>
+        <%= form.submit '編集する', class: 'btn btn-primary' %>
+    <% end %>
+    <%= link_to '戻る', labels_path, id: 'back', class: 'btn btn-secondary' %>
+<% end %>

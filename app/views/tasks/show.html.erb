@@ -1,34 +1,21 @@
 <h1><%= t('tasks.show.title') %></h1>
 
-<p>
-    <strong><%= Task.human_attribute_name(:title) %>:</strong>
-    <%= @task.title %>
-</p>
+<dl class="row">
+    <dt class="col-sm-2"><%= Task.human_attribute_name(:title) %>:</dt>
+    <dd class="col-sm-10"><%= @task.title %></dd>
+    <dt class="col-sm-2"><%= Task.human_attribute_name(:content) %>:</dt>
+    <dd class="col-sm-10"><%= @task.content %></dd>
+    <dt class="col-sm-2"><%= Task.human_attribute_name(:created_at) %>:</dt>
+    <dd class="col-sm-10"><%= @task.created_at %></dd>
+    <dt class="col-sm-2"><%= Task.human_attribute_name(:deadline_on) %>:</dt>
+    <dd class="col-sm-10"><%= @task.deadline_on %></dd>
+    <dt class="col-sm-2"><%= Task.human_attribute_name(:priority) %>:</dt>
+    <dd class="col-sm-10"><%= @task.priority_i18n %></dd>
+    <dt class="col-sm-2"><%= Task.human_attribute_name(:status) %>:</dt>
+    <dd class="col-sm-10"><%= @task.status_i18n %></dd>
+    <dt class="col-sm-2">ラベル:</dt>
+    <dd class="col-sm-10"><%= @task.labels.pluck(:name).join(', ') %></dd>
+</dl>
 
-<p>
-    <strong><%= Task.human_attribute_name(:content) %>:</strong>
-    <%= @task.content %>
-</p>
-
-<p>
-    <strong><%= Task.human_attribute_name(:created_at) %>:</strong>
-    <%= @task.created_at %>
-</p>
-
-<p>
-    <strong><%= Task.human_attribute_name(:deadline_on) %>:</strong>
-    <%= @task.deadline_on %>
-</p>
-
-<p>
-    <strong><%= Task.human_attribute_name(:priority) %>:</strong>
-    <%= @task.priority_i18n %>
-</p>
-
-<p>
-    <strong><%= Task.human_attribute_name(:status) %>:</strong>
-    <%= @task.status_i18n %>
-</p>
-
-<%= link_to t('tasks.show.edit_task'), edit_task_path(@task), id: 'edit-task' %> |
-<%= link_to t('tasks.show.back'), tasks_path, id: 'back' %>
+<%= link_to t('tasks.show.edit_task'), edit_task_path(@task), id: 'edit-task', class: "btn btn-primary" %>
+<%= link_to t('tasks.show.back'), tasks_path, id: 'back', class: "btn btn-secondary" %>

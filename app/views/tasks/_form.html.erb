@@ -1,5 +1,5 @@
 <% if task.errors.any? %>
-    <div id="error_explanation">
+    <div id="error_explanation" class="alert alert-danger">
         <ul>
             <% if @task&.errors&.any? %>
                 <% @task.errors.full_messages.each do |message| %>
@@ -11,36 +11,47 @@
 <% end %>
 
 <%= form_with(model: task, local: true) do |form| %>
-    <p>
-        <%= form.label :title %><br>
-        <%= form.text_field :title %>
-    </p>
+    <div class="form-group">
+        <%= form.label :title, class: 'form-label' %>
+        <%= form.text_field :title, class: 'form-control' %>
+    </div>
 
-    <p>
-        <%= form.label :content %><br>
-        <%= form.text_area :content %>
-    </p>
+    <div class="form-group">
+        <%= form.label :content, class: 'form-label' %>
+        <%= form.text_area :content, class: 'form-control' %>
+    </div>
 
-    <p>
-        <%= form.label :deadline_on, '終了期限' %><br>
-        <%= form.date_field :deadline_on, min: Date.current %>
-    </p>
+    <div class="form-group">
+        <%= form.label :deadline_on, '終了期限', class: 'form-label' %><br>
+        <%= form.date_field :deadline_on, class: 'form-control', min: Date.current %>
+    </div>
 
-    <p>
-        <%= form.label :priority, '優先度' %><br>
-        <%= form.select :priority, [['高', 'high'], ['中', 'medium'], ['低', 'low']], selected: '', include_blank: '' %>
-    </p>
+    <div class="form-group">
+        <%= form.label :priority, '優先度', class: 'form-label' %><br>
+        <%= form.select :priority, [['高', 'high'], ['中', 'medium'], ['低', 'low']], selected: '', include_blank: '', class: 'form-control', id: 'exampleFormControlSelect1' %>
+    </div>
 
-    <p>
-        <%= form.label :status, 'ステータス' %><br>
-        <%= form.select :status, [['未着手', 'not_started'], ['着手中', 'in_progress'], ['完了', 'completed']], selected: '', include_blank: '' %>
-    </p>
+    <div class="form-group">
+        <%= form.label :status, 'ステータス', class: 'form-label' %><br>
+        <%= form.select :status, [['未着手', 'not_started'], ['着手中', 'in_progress'], ['完了', 'completed']], selected: '', include_blank: '', class: 'form-control', id: 'exampleFormControlSelect1' %>
+    </div>
 
-    <p>
-        <% if task.new_record? %>
-            <%= form.submit t('tasks.new.create_task'), id: 'create-task' %>
-        <% else %>
-            <%= form.submit t('tasks.edit.update_task'), id: 'update-task' %>
+    <div class="form-group">
+        <%= form.label :labels, 'ラベル' %><br>
+        <% current_user.labels.each do |label| %>
+            <%= form.check_box :label_ids, { multiple: true }, label.id, checked: @task.labels.include?(label) %>
+            <%= label.name %><br>
         <% end %>
-    </p>
+    </div>
+
+    <% if task.new_record? %>
+        <%= form.submit t('tasks.new.create_task'), id: 'create-task', class: "btn btn-primary" %>
+    <% else %>
+        <%= form.submit t('tasks.edit.update_task'), id: 'update-task', class: "btn btn-primary" %>
+    <% end %>
+    <% if task.new_record? %>
+        <%= link_to t('tasks.new.back'), tasks_path, id: 'back', class: 'btn btn-secondary' %>
+    <% else %>
+        <%= link_to t('tasks.edit.back'), tasks_path, id: 'back', class: 'btn btn-secondary' %>
+    <% end %>
 <% end %>
