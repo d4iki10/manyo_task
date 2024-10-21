@@ -2,19 +2,17 @@
 
 <!-- 検索フォーム -->
 <%= form_with(url: tasks_path, method: :get, scope: :search, local: true) do |form| %>
-    <div>
-        <%= form.label :title, 'タイトル' %>
-        <%= form.text_field :title %>
-    </div>
-
-    <div>
+    <p>
         <%= form.label :status, 'ステータス' %>
         <%= form.select :status, options_for_select([['未着手', '0'], ['着手中', '1'], ['完了', '2']], selected: ''), prompt: '' %>
-    </div>
-
-    <div>
+    </p>
+    <p>
+        <%= form.label :title, 'タイトル' %>
+        <%= form.text_field :title %>
+    </p>
+    <p>
         <%= form.submit '検索', id: 'search_task' %>
-    </div>
+    </p>
 <% end %>
 
 <table>
@@ -39,11 +37,11 @@
             <td><%= task.deadline_on %></td>
             <td><%= task.priority_i18n %></td>
             <td><%= task.status_i18n %></td>
-            <td><%= link_to t('helpers.submit.show'), task, class: 'show-task' %></td>
-            <td><%= link_to t('helpers.submit.edit'), edit_task_path(task), class: 'edit-task' %></td>
-            <td><%= link_to t('helpers.submit.destroy'), task, method: :delete, data: { confirm: t('helpers.confirm.destroy') }, class: 'destroy-task' %></td>
+            <td><%= link_to t('helpers.submit.show'), task, id: 'show-task' %></td>
+            <td><%= link_to t('helpers.submit.edit'), edit_task_path(task), id: 'edit-task' %></td>
+            <td><%= link_to t('helpers.submit.destroy'), task, method: :delete, data: { confirm: t('helpers.confirm.destroy') }, id: 'destroy-task' %></td>
         </tr>
         <% end %>
     </tbody>
 </table>
-<%= paginate @tasks %>
+<p><%= paginate @tasks %></p>

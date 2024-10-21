@@ -11,14 +11,45 @@
 
   <body>
     <nav>
-      <%= link_to t('tasks.links.tasks_index'), tasks_path, id: 'tasks-index' %> |
-      <%= link_to t('tasks.links.new_task'), new_task_path, id: 'new-task' %>
+      <ul>
+        <% if logged_in? %>
+          <% if current_user.admin? %>
+            <li><%= link_to 'ユーザ一覧', admin_users_path, id: 'users-index' %></li>
+            <li><%= link_to 'ユーザを登録する', new_admin_user_path, id: 'add-user' %></li>
+          <% end %>
+          <li><%= link_to 'タスク一覧', tasks_path, id: 'tasks-index' %></li>
+          <li><%= link_to 'タスクを登録する', new_task_path, id: 'new-task' %></li>
+          <li><%= link_to 'アカウント設定', user_path(current_user), id: 'account-setting' %></li>
+          <li><%= link_to 'ログアウト', session_path(current_user), method: :delete, id: 'sign-out' %></li>
+        <% else %>
+          <li><%= link_to 'アカウント登録', new_user_path, id: 'sign-up' %></li>
+          <li><%= link_to 'ログイン', new_session_path, id: 'sign-in' %></li>
+        <% end %>
+      </ul>
     </nav>
-
-    <% if notice %>
-      <p id="notice"><%= notice %></p>
+    <!-- バリデーションメッセージを共通表示 -->
+    <% if (defined?(@user) && @user&.errors&.any?) || (defined?(@task) && @task&.errors&.any?) %>
+      <div id="error_explanation">
+        <ul>
+          <% if @user&.errors&.any? %>
+            <% @user.errors.full_messages.each do |message| %>
+              <li><%= message.gsub(' ', '') %></li>
+            <% end %>
+          <% end %>
+          <% if @task&.errors&.any? %>
+            <% @task.errors.full_messages.each do |message| %>
+              <li><%= message.gsub(' ', '') %></li>
+            <% end %>
+          <% end %>
+        </ul>
+      </div>
     <% end %>
-
+    <!-- フラッシュメッセージの共通表示 -->
+    <% flash.each do |key, message| %>
+      <div class="flash <%= key %>">
+        <li><%= message.gsub(' ', '') %></li>
+      </div>
+    <% end %>
     <%= yield %>
   </body>
 </html>

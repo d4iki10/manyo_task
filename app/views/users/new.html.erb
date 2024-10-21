@@ -1,0 +1,28 @@
+<h1>アカウント登録ページ</h1>
+
+<%= form_with(model: @user, local: true) do |form| %>
+    <p>
+        <%= form.label :name, '名前' %><br>
+        <%= form.text_field :name %>
+    </p>
+
+    <p>
+        <%= form.label :email, 'メールアドレス' %><br>
+        <%= form.email_field :email %>
+    </p>
+
+    <p>
+        <%= form.label :password, 'パスワード' %><br>
+        <%= form.password_field :password %>
+    </p>
+
+    <p>
+        <%= form.label :password_confirmation, 'パスワード（確認）' %><br>
+        <%= form.password_field :password_confirmation %>
+    </p>
+
+    <p>
+        <%= form.submit '登録する', id: 'create-user' %>
+    </p>
+<% end %>
+<%= link_to '戻る', tasks_path, id: 'back' %>

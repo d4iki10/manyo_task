@@ -2,6 +2,8 @@ ja:
   activerecord:
     models:
       task: タスク
+      user: ユーザ
+
     attributes:
       task:
         title: タイトル
@@ -10,6 +12,24 @@ ja:
         deadline_on: 終了期限
         priority: 優先度
         status: ステータス
+      user:
+        name: 名前
+        email: メールアドレス
+        password: パスワード
+        password_confirmation: パスワード（確認）
+        admin: 管理者権限
+
+    errors:
+      format: "%{attribute}%{message}"
+      messages:
+        blank: "を入力してください"
+        taken: "はすでに使用されています"
+        too_short: "は%{count}文字以上で入力してください"
+        confirmation: "とパスワードの入力が一致しません"
+        invalid: "は不正な値です"
+        not_a_number: "は数値でなければなりません"
+        greater_than_or_equal_to: "は%{count}以上でなければなりません"
+        less_than_or_equal_to: "は%{count}以下でなければなりません"
 
   tasks:
     index:
@@ -51,14 +71,24 @@ ja:
       destroy: "本当に削除してもよろしいですか？"
 
   flash:
-    create_success: "%{model}を登録しました"
-    update_success: "%{model}を更新しました"
-    destroy_success: "%{model}を削除しました"
-
-  errors:
-    format: "%{attribute}%{message}"
-    messages:
-      blank: "を入力してください"
+    task_created: "タスクを登録しました"
+    task_updated: "タスクを更新しました"
+    task_destroyed: "タスクを削除しました"
+    login: "ログインしました"
+    logout: "ログアウトしました"
+    login_required: "ログインしてください"
+    logout_required: "ログアウトしてください"
+    user_created: "ユーザを登録しました"
+    user_updated: "ユーザを更新しました"
+    user_destroyed: "ユーザを削除しました"
+    account_created: "アカウントを登録しました"
+    account_updated: "アカウントを更新しました"
+    account_destroyed: "アカウントを削除しました"
+  alert:
+    login_failed: "メールアドレスまたはパスワードに誤りがあります"
+    admin_access: "管理者以外アクセスできません"
+    delete_last_admin: "管理者が0人になるため削除できません"
+    cannot_remove_admin: "管理者が0人になるため権限を変更できません"
 
   time:
     formats:

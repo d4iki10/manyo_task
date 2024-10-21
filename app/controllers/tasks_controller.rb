@@ -1,9 +1,10 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :edit, :update, :destroy]
+  before_action :login_required
+  before_action :authorize_user, only: [:show, :edit]
 
   # タスク一覧画面（Read）
   def index
-    @tasks = Task.all
+    @tasks = current_user.tasks.page(params[:page])
 
     # 検索機能の実装
     if params[:search].present?
@@ -25,6 +26,7 @@ class TasksController < ApplicationController
 
   # タスク詳細画面（Read）
   def show
+    @task = Task.find(params[:id])
   end
 
   # タスク登録画面の表示（Create）
@@ -34,22 +36,26 @@ class TasksController < ApplicationController
 
   # タスクの登録処理（Create）
   def create
-    @task = Task.new(task_params)
+    @task = current_user.tasks.build(task_params)
     if @task.save
-      redirect_to @task, notice: t('flash.create_success', model: Task.model_name.human)
+      flash[:notice] = t('flash.account_created')
+      redirect_to tasks_path
     else
+      flash.now[:alert] = 'タスクの作成に失敗しました。'
       render :new
     end
   end
 
   # タスク編集画面の表示（Update）
   def edit
+    @task = Task.find(params[:id])
   end
 
   # タスクの更新処理（Update）
   def update
+    @task = Task.find(params[:id])
     if @task.update(task_params)
-      redirect_to @task, notice: t('flash.update_success', model: Task.model_name.human)
+      redirect_to task_path(@task), notice: t('flash.task_updated', model: Task.model_name.human)
     else
       render :edit
     end
@@ -57,19 +63,33 @@ class TasksController < ApplicationController
 
   # タスクの削除処理（Delete）
   def destroy
+    @task = Task.find(params[:id])
     @task.destroy
-    redirect_to tasks_url, notice: t('flash.destroy_success', model: Task.model_name.human)
+    redirect_to tasks_path, notice: t('flash.task_destroyed', model: Task.model_name.human)
   end
 
   private
 
-  # Strong Parametersの設定
-  def task_params
-    params.require(:task).permit(:title, :content, :deadline_on, :priority, :status)
+  # アクセス権限のチェック
+  def authorize_user
+    @task = Task.find_by(id: params[:id])
+
+    # タスクが存在しない場合のハンドリング
+    unless @task
+      flash[:alert] = "タスクが見つかりません"
+      redirect_to tasks_path
+      return
+    end
+
+    # ユーザーが管理者でもなく、タスクの所有者でもない場合
+    unless current_user.admin? || @task.user == current_user
+      flash[:alert] = "アクセス権限がありません"
+      redirect_to tasks_path  # タスク一覧ページにリダイレクト
+    end
   end
 
-  # 共通処理：@taskのセット
-  def set_task
-    @task = Task.find(params[:id])
+  # Strong Parameters
+  def task_params
+    params.require(:task).permit(:title, :content, :deadline_on, :priority, :status)
   end
 end
