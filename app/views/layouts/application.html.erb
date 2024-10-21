@@ -33,12 +33,12 @@
         <ul>
           <% if @user&.errors&.any? %>
             <% @user.errors.full_messages.each do |message| %>
-              <li><%= message.gsub(' ', '') %></li>
+              <li><%= message %></li>
             <% end %>
           <% end %>
           <% if @task&.errors&.any? %>
             <% @task.errors.full_messages.each do |message| %>
-              <li><%= message.gsub(' ', '') %></li>
+              <li><%= message %></li>
             <% end %>
           <% end %>
         </ul>
@@ -47,7 +47,7 @@
     <!-- フラッシュメッセージの共通表示 -->
     <% flash.each do |key, message| %>
       <div class="flash <%= key %>">
-        <li><%= message.gsub(' ', '') %></li>
+        <li><%= message %></li>
       </div>
     <% end %>
     <%= yield %>
